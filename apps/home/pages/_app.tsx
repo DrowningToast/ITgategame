@@ -6,10 +6,25 @@ import {
   profileInfoAtom,
 } from "firebase-auth-api";
 import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { AxiosInstance } from "axios";
+import {
+  axiosBackendInstance,
+  SetDefaultHeader,
+} from "../components/axios/helper";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [User] = useAtom(firebaseUserAtom);
-  console.log(User);
+
+  useEffect(() => {
+    if (!User) return () => {};
+    console.log("Attaching token to the axios header");
+    if (!User?.token)
+      return console.error(
+        "Fatal error the authorized user is missing the token"
+      );
+    SetDefaultHeader(axiosBackendInstance, User?.token);
+  }, [User]);
 
   return (
     <>
