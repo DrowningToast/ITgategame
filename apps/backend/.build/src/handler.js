@@ -3,9 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// const serverless = require("serverless-http");
 var serverless_http_1 = __importDefault(require("serverless-http"));
-// const express = require("express");
 var express_1 = __importDefault(require("express"));
 var validateAuth_1 = __importDefault(require("./middlewares/validateAuth"));
 var cors_1 = __importDefault(require("cors"));

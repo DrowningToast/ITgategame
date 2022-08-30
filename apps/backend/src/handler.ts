@@ -1,6 +1,4 @@
-// const serverless = require("serverless-http");
 import serverless from "serverless-http";
-// const express = require("express");
 import express from "express";
 import validateAuth from "./middlewares/validateAuth";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";

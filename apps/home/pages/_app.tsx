@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       return console.error(
         "Fatal error the authorized user is missing the token"
       );
+    console.log(User);
     SetDefaultHeader(axiosBackendInstance, User?.token);
   }, [User]);
 
