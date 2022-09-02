@@ -1,4 +1,18 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
+
+export interface iUser {
+  _id: ObjectId;
+  email: string;
+  balance: number;
+  uid: string;
+  gate: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  id: string;
+  year: number;
+  activated: boolean;
+}
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -20,15 +34,12 @@ const UserSchema = new mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: true,
   },
   lastName: {
     type: String,
-    required: true,
   },
   userName: {
     type: String,
-    required: true,
   },
   year: {
     type: Number,
@@ -37,6 +48,20 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["Player", "Admin", "Agency"],
+  },
+  activated: {
+    type: Boolean,
+    default: false,
+  },
+  id: {
+    type: String,
+    required: true,
+  },
+  discordId: {
+    type: String,
+  },
+  discordToken: {
+    type: String,
   },
 });
 

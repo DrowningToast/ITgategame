@@ -10,6 +10,10 @@ const GateSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  basePoints: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Gate = mongoose.model("Gate", GateSchema);

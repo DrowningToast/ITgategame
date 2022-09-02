@@ -32,7 +32,7 @@ const AuthUpdater = () => {
         if (process.env.NEXT_PUBLIC_backend_url) {
           try {
             const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_backend_url}/user/${user.email}`
+              `${process.env.NEXT_PUBLIC_backend_url}/user/`
             );
             setInfo(response.data);
           } catch (e) {

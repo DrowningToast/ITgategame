@@ -172,21 +172,18 @@ export const SignOut = async () => {
  * @param {String} props.path
  */
 export const ConditionalRedirect: FC<{
-  cb: (fbProfile: User | null, ready: boolean) => boolean;
+  cb: (
+    fbProfile: User | null,
+    ready: boolean
+  ) => boolean | undefined | null | string;
   path: string;
-}> = ({
-  cb,
-  path,
-}: {
-  cb: (fbProfile: User | null, ready: boolean) => boolean;
-  path: string;
-}) => {
+}> = ({ cb, path }) => {
   const [fbProfile] = useAtom<User | null>(firebaseUserAtom);
   const [ready] = useAtom<boolean>(firebaseReady);
   const router = useRouter();
 
   useEffect(() => {
-    if (cb(fbProfile, ready)) {
+    if (cb(fbProfile, ready) && true) {
       router.push(path);
     }
   }, [fbProfile, ready]);

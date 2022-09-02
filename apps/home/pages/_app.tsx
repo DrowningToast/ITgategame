@@ -15,6 +15,7 @@ import {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [User] = useAtom(firebaseUserAtom);
+  const [profile] = useAtom(profileInfoAtom);
 
   useEffect(() => {
     if (!User) return () => {};

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,32 +50,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = __importDefault(require("mongoose"));
-var dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-var useMongoose = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var e_1;
+var User_1 = __importDefault(require("../models/User"));
+/**
+ *
+ * @param {Promise<DecodedIdToken>} user
+ * @param {[ "Player" | "Admin" | "Agency"]} requiredRole
+ * @returns
+ */
+var validateRole = function (user, requiredRoles) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (mongoose_1.default.connections[0].readyState) {
-                    return [2 /*return*/, next()];
-                }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, mongoose_1.default.connect("mongodb+srv://".concat(process.env.db_username, ":").concat(process.env.db_password, "@itggmongodb.ppba9ee.mongodb.net/?retryWrites=true&w=majority"))];
-            case 2:
-                _a.sent();
-                next();
-                return [3 /*break*/, 4];
-            case 3:
-                e_1 = _a.sent();
-                console.log(e_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
+        return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
+                var userData, e_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, User_1.default.findOne({ uid: user === null || user === void 0 ? void 0 : user.uid })];
+                        case 1:
+                            userData = _a.sent();
+                            if (!user || !userData || !(userData === null || userData === void 0 ? void 0 : userData.role)) {
+                                reject({ code: 400, message: "Not Authorized" });
+                            }
+                            else if ((requiredRoles === null || requiredRoles === void 0 ? void 0 : requiredRoles.length) &&
+                                !(requiredRoles === null || requiredRoles === void 0 ? void 0 : requiredRoles.includes(userData === null || userData === void 0 ? void 0 : userData.role))) {
+                                reject({ code: 403, message: "Insufficient Permission" });
+                            }
+                            else {
+                                resolve(__assign(__assign({}, user), userData.toObject()));
+                            }
+                            return [3 /*break*/, 3];
+                        case 2:
+                            e_1 = _a.sent();
+                            console.log(e_1);
+                            reject({ code: 500, message: "Unknown validation error" });
+                            return [3 /*break*/, 3];
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            }); })];
     });
 }); };
-exports.default = useMongoose;
-//# sourceMappingURL=connectMongoose.js.map
+exports.default = validateRole;
+//# sourceMappingURL=validateRole.js.map
