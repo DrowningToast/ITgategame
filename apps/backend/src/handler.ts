@@ -4,7 +4,7 @@ import validateAuth from "./middlewares/validateAuth";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 import Cors from "cors";
 import useMongoose from "./middlewares/connectMongoose";
-import userRouter from "../routes/User";
+import userRouter from "./routes/User";
 
 const app = express();
 
@@ -30,9 +30,13 @@ app.use(useMongoose);
 app.use("/user", userRouter);
 
 app.get("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello world from root!!!!!!",
-  });
+  try {
+    return res.status(200).json({
+      message: "Hello world from root!!!!!!",
+    });
+  } catch (e) {
+    return res.status(500).send(e);
+  }
 });
 
 app.get("/hello", (req, res, next) => {
