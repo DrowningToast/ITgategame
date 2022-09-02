@@ -10,7 +10,7 @@ provider:
 
 functions:
   api:
-    handler: src/handler.handler
+    handler: handler.handler
     events:
       - httpApi: "*"
 
