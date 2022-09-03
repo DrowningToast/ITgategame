@@ -17,32 +17,56 @@ importers:
       '@firebase/app-types': ^0.7.0
       '@types/express': ^4.17.13
       '@types/node': ^18.7.14
+      aws-sdk: ^2.1209.0
+      bson: ^4.7.0
       cors: ^2.8.5
+      denque: ^2.1.0
       dotenv: ^16.0.1
       express: ^4.17.1
       firebase-admin: ^11.0.1
+      ip: ^1.1.8
       mongodb: ^4.9.1
+      mongodb-connection-string-url: ^2.5.3
       mongoose: ^6.5.3
+      mpath: ^0.9.0
+      mquery: ^4.0.3
       node-forge: 0.7.0
       object-assign: ^4.1.1
       serverless-http: ^2.7.0
       serverless-offline: ^9.3.0
       serverless-plugin-typescript: ^2.1.2
+      smart-buffer: ^4.2.0
+      socks: ^2.7.0
+      tr46: ^3.0.0
       typescript: ^4.8.2
+      webidl-conversions: ^7.0.0
+      whatwg-url: ^11.0.0
     dependencies:
       '@firebase/app-types': 0.7.0
       '@types/express': 4.17.13
       '@types/node': 18.7.14
+      aws-sdk: 2.1209.0
+      bson: 4.7.0
       cors: 2.8.5
+      denque: 2.1.0
       dotenv: 16.0.1
       express: 4.18.1
       firebase-admin: 11.0.1_@firebase+app-types@0.7.0
+      ip: 1.1.8
       mongodb: 4.9.1
+      mongodb-connection-string-url: 2.5.3
       mongoose: 6.5.3
+      mpath: 0.9.0
+      mquery: 4.0.3
       node-forge: 0.7.0
       object-assign: 4.1.1
       serverless-http: 2.7.0
       serverless-offline: 9.3.0
+      smart-buffer: 4.2.0
+      socks: 2.7.0
+      tr46: 3.0.0
+      webidl-conversions: 7.0.0
+      whatwg-url: 11.0.0
     devDependencies:
       serverless-plugin-typescript: 2.1.2_typescript@4.8.2
       typescript: 4.8.2
@@ -2190,8 +2214,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
-  /aws-sdk/2.1204.0:
-    resolution: {integrity: sha512-H3dRQBdgzAfZ/e/dfiW44fhQrgAuCfIzWhI5y5J9122caI4uZY6TEUd003UXP4nXq2eMfuPWg0bA/mPwbj8RkA==}
+  /aws-sdk/2.1209.0:
+    resolution: {integrity: sha512-m4Dd0HtyKeKBjwzP9rhe+NcmsRKR0wW+QXfpepu6vgXYhmcJuOB9TLUoeB7jiNDPimmwU+KxtL6eonRfeFhANw==}
     engines: {node: '>= 10.0.0'}
     dependencies:
       buffer: 4.9.2
@@ -4571,6 +4595,10 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
 
+  /ip/1.1.8:
+    resolution: {integrity: sha512-PuExPYUiu6qMBQb4l06ecm6T6ujzhmh+MeJcW9wa89PoAz5pvd4zPgN5WJV104mb6S2T1AwNIAaB70JNrLQWhg==}
+    dev: false
+
   /ip/2.0.0:
     resolution: {integrity: sha512-WKa+XuLG1A1R0UWhl2+1XQSi+fZWMsYKffMZTTYsiZaUD8k2yDAj5atimTUD2TZkyCkNEeYE5NhFZmupOGtjYQ==}
     dev: false
@@ -6652,7 +6680,7 @@ packages:
       '@hapi/h2o2': 9.1.0
       '@hapi/hapi': 20.2.2
       '@serverless/utils': 6.7.0
-      aws-sdk: 2.1204.0
+      aws-sdk: 2.1209.0
       boxen: 7.0.0
       chalk: 5.0.1
       execa: 6.1.0
