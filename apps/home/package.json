@@ -17,7 +17,7 @@
     "firebase-auth-api": "workspace:^1.0.0",
     "framer-motion": "^7.2.1",
     "jotai": "^1.8.1",
-    "next": "12.2.5",
+    "next": "12.2.4",
     "postcss": "^8.4.16",
     "postcss-preset-env": "^7.8.0",
     "react": "^18.2.0",

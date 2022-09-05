@@ -31,7 +31,7 @@ const Scoreboard: FC<PropsA> = ({ teams }) => {
 
   return (
     <section className="px-8 xl:px-28 relative py-20 w-screen min-h-screen bg-semidark rounded-bl-[80px] rounded-br-[80px] xl:rounded-bl-3xl xl:rounded-br-3xl flex flex-col gap-y-16 justify-end xl:py-32">
-      <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute right-24 top-1/3">
+      <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute right-24 top-20 xl:top-1/3">
         <NeonText>Scoreboard</NeonText>
       </h1>
 
