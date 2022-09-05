@@ -57,7 +57,6 @@ userRouter.get("/", async (req, res) => {
 
     return res.status(200).send(_);
   } catch (e) {
-    console.log("Err");
     res.status(e.code ?? 500).send(e);
   }
 });

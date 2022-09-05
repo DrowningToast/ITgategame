@@ -24,7 +24,6 @@ const validateAuth = async (req, res, next) => {
     const idToken = req.headers.authorization.split("Bearer ")[1];
     try {
       const deocdeToken = await admin.auth().verifyIdToken(idToken);
-      console.log("The user verified");
       req["currentUser"] = deocdeToken;
       return next();
     } catch (err) {

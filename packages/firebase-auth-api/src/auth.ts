@@ -81,7 +81,6 @@ export const handleRegisterWithEmail = async (
       const validUsername = await sanitizeInput(username);
       const validEmail = await validateEmail(email);
       const response = await signupEmail(validEmail, validPass);
-      console.log(response);
       updateProfile(auth.currentUser, {
         displayName: validUsername,
       });

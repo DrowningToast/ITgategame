@@ -56,9 +56,6 @@ pointRouter.get("/compute", async (req, res) => {
     const NORScore = (await Gate.findById("NOR"))?.basePoints;
     const NOTScore = (await Gate.findById("NOT"))?.basePoints;
 
-    console.log(ANDusers);
-    console.log(AndScore);
-
     const ANDtotal =
       ANDusers.reduce((total, user) => {
         return total + user.balance;
@@ -75,11 +72,6 @@ pointRouter.get("/compute", async (req, res) => {
       NOTusers.reduce((total, user) => {
         return total + user.balance;
       }, 0) + NOTScore!;
-
-    console.log(ANDtotal);
-    console.log(ORtotal);
-    console.log(NORtotal);
-    console.log(NOTtotal);
 
     const ANDgate = await Gate.findOneAndUpdate(
       {

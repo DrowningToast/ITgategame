@@ -4,8 +4,6 @@ import { useAtom } from "jotai";
 const Account = () => {
   const [user] = useAtom(firebaseUserAtom);
 
-  console.log(true && user?.email);
-
   return (
     <>
       {/* Check if not signed in */}

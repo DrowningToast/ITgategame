@@ -57,7 +57,6 @@ const Agenda = () => {
           }
         });
       });
-      console.log(unqiueDates);
       setDates(unqiueDates);
       setEvents(categoriedEvent);
     };
@@ -87,7 +86,6 @@ const Agenda = () => {
               <span
                 key={`date-${index}`}
                 onClick={() => {
-                  console.log(date);
                   setDate(date);
                 }}
                 className={`font-bebas text-2xl xl:text-5xl mt-12 xl:mt-0 inline-block cursor-pointer ${

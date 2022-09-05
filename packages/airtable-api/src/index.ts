@@ -16,7 +16,6 @@ export const getMainBase = () => {
     endpointUrl: "https://api.airtable.com",
     apiKey: apiKey,
   });
-  console.log(Airtable.base("appmXBeHb4evHo4KD"));
 };
 
 export * from "./types/job";

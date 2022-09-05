@@ -38,8 +38,6 @@ app.get("/", (req, res, next) => {
 });
 
 app.get("/hello", (req, res, next) => {
-  console.log("hello world");
-
   return res.status(200).json({
     message: `Hello from path! bruh ${req?.currentUser?.email}`,
   });
