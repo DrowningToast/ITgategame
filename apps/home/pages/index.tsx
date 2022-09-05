@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Agenda from "../components/agenda/Agenda";
 import GGDay from "../components/banner/GGDay";
+import Tournament from "../components/banner/Tournament";
 import Hero from "../components/landing/Hero";
 import Scoreboard from "../components/scoreboard/Scoreboard";
 
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
         <Scoreboard />
         <Agenda />
         <GGDay />
+        <Tournament />
       </main>
     </div>
   );

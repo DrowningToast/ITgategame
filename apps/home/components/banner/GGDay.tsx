@@ -13,7 +13,7 @@ const GGDay = () => {
         }}
         className="absolute inset-y-0 left-0 right-0 aspect-auto bg-no-repeat bg-center lg:bg-left blur-[2px]"
       ></div>
-      <div className="absolute inset-0 bg-tertiary bg-gg-day lg:text-5xl z-0 opacity-70"></div>
+      <div className="absolute inset-0 bg-tertiary bg-gg-day lg:text-5xl z-0 opacity-70 lg:opacity-100"></div>
       <div className="lg:row-span-2 lg:h-full lg:grid lg:place-items-center">
         <h1
           data-text={"GG Day"}
