@@ -36,20 +36,28 @@ pointRouter.get("/compute", async (req, res) => {
 
     const ANDusers = await User.find({
       gate: "AND",
+      activated: true,
     });
     const ORusers = await User.find({
       gate: "OR",
+      activated: true,
     });
     const NORusers = await User.find({
       gate: "NOR",
+      activated: true,
     });
     const NOTusers = await User.find({
       gate: "NOT",
+      activated: true,
     });
-    const AndScore = (await Gate.findById("And"))?.basePoints;
-    const ORScore = (await Gate.findById("Or"))?.basePoints;
-    const NORScore = (await Gate.findById("Nor"))?.basePoints;
-    const NOTScore = (await Gate.findById("Not"))?.basePoints;
+    // const AndScore = await Gate.findById('And')
+    const AndScore = (await Gate.findById("AND"))?.basePoints;
+    const ORScore = (await Gate.findById("OR"))?.basePoints;
+    const NORScore = (await Gate.findById("NOR"))?.basePoints;
+    const NOTScore = (await Gate.findById("NOT"))?.basePoints;
+
+    console.log(ANDusers);
+    console.log(AndScore);
 
     const ANDtotal =
       ANDusers.reduce((total, user) => {
@@ -67,6 +75,11 @@ pointRouter.get("/compute", async (req, res) => {
       NOTusers.reduce((total, user) => {
         return total + user.balance;
       }, 0) + NOTScore!;
+
+    console.log(ANDtotal);
+    console.log(ORtotal);
+    console.log(NORtotal);
+    console.log(NOTtotal);
 
     const ANDgate = await Gate.findOneAndUpdate(
       {
@@ -103,7 +116,8 @@ pointRouter.get("/compute", async (req, res) => {
 
     res.status(200).send({ ANDgate, ORgate, NORgate, NOTgate });
   } catch (e) {
-    res.status(500).send("AN error has occured");
+    console.log(e);
+    res.status(501).send("AN error has occured");
   }
 });
 

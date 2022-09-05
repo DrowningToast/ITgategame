@@ -120,18 +120,4 @@ const GateScore: FC<PropsB> = ({
   );
 };
 
-export const getStaticProps = async () => {
-  await axiosBackendInstance.get("/point/compute");
-  const teams = await axiosBackendInstance.get<any, { data: Team[] }>(
-    "/point/teams"
-  );
-
-  return {
-    props: {
-      teams,
-    },
-    revalidate: 86400,
-  };
-};
-
 export default Scoreboard;

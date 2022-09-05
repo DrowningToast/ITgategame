@@ -1,12 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Agenda from "../components/agenda/Agenda";
+import { axiosBackendInstance } from "../components/axios/helper";
 import GGDay from "../components/banner/GGDay";
 import Tournament from "../components/banner/Tournament";
 import Hero from "../components/landing/Hero";
-import Scoreboard from "../components/scoreboard/Scoreboard";
+import Scoreboard, { Team } from "../components/scoreboard/Scoreboard";
 
-const Home: NextPage = () => {
+interface PropsA {
+  teams?: Team[];
+}
+
+const Home: NextPage<PropsA> = ({ teams }) => {
   return (
     <div className="w-screen h-screen flex flex-col items-center">
       <Head>
@@ -17,13 +22,27 @@ const Home: NextPage = () => {
 
       <main className="bg-dark w-full overflow-x-hidden min-h-screen grid place-items-center">
         <Hero />
-        <Scoreboard />
+        <Scoreboard teams={teams} />
         <Agenda />
         <GGDay />
         <Tournament />
       </main>
     </div>
   );
+};
+
+export const getStaticProps = async () => {
+  const response = await axiosBackendInstance.get("/point/compute");
+  const teams = await axiosBackendInstance.get<any, { data: Team[] }>(
+    "/point/teams"
+  );
+
+  return {
+    props: {
+      teams: JSON.parse(JSON.stringify(teams.data)),
+    },
+    revalidate: 86400,
+  };
 };
 
 export default Home;
