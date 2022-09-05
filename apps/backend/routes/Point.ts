@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import validateRole from "../helper/validateRole";
 import Gate from "../models/Gate";
 import User from "../models/User";
@@ -6,13 +6,16 @@ import User from "../models/User";
 const pointRouter = express.Router();
 
 /**
- * Get points of all teams
+ * Get points of all teams, ascending
  */
 pointRouter.get("/teams", async (req, res) => {
   try {
     await validateRole(req?.currentUser);
 
-    const gates = await Gate.find({});
+    const gates = await Gate.find({}).sort({
+      totalPoints: -1,
+      basePoints: -1,
+    });
 
     return res.status(200).send(gates);
   } catch (e) {
@@ -25,7 +28,11 @@ pointRouter.get("/teams", async (req, res) => {
  */
 pointRouter.get("/compute", async (req, res) => {
   try {
-    await validateRole(req?.currentUser);
+    // await validateRole(req?.currentUser);
+    /**
+     * TODO:
+     * Find the MVPs of the gates
+     */
 
     const ANDusers = await User.find({
       gate: "AND",
@@ -39,19 +46,27 @@ pointRouter.get("/compute", async (req, res) => {
     const NOTusers = await User.find({
       gate: "NOT",
     });
+    const AndScore = (await Gate.findById("And"))?.basePoints;
+    const ORScore = (await Gate.findById("Or"))?.basePoints;
+    const NORScore = (await Gate.findById("Nor"))?.basePoints;
+    const NOTScore = (await Gate.findById("Not"))?.basePoints;
 
-    const ANDtotal = ANDusers.reduce((total, user) => {
-      return total + user.balance;
-    }, 0);
-    const ORtotal = ORusers.reduce((total, user) => {
-      return total + user.balance;
-    }, 0);
-    const NORtotal = NORusers.reduce((total, user) => {
-      return total + user.balance;
-    }, 0);
-    const NOTtotal = NOTusers.reduce((total, user) => {
-      return total + user.balance;
-    }, 0);
+    const ANDtotal =
+      ANDusers.reduce((total, user) => {
+        return total + user.balance;
+      }, 0) + AndScore!;
+    const ORtotal =
+      ORusers.reduce((total, user) => {
+        return total + user.balance;
+      }, 0) + ORScore!;
+    const NORtotal =
+      NORusers.reduce((total, user) => {
+        return total + user.balance;
+      }, 0) + NORScore!;
+    const NOTtotal =
+      NOTusers.reduce((total, user) => {
+        return total + user.balance;
+      }, 0) + NOTScore!;
 
     const ANDgate = await Gate.findOneAndUpdate(
       {
@@ -90,6 +105,26 @@ pointRouter.get("/compute", async (req, res) => {
   } catch (e) {
     res.status(500).send("AN error has occured");
   }
+});
+
+pointRouter.get("/:uid", async (req, res) => {
+  try {
+    const incomingRequestAuth = await validateRole(req?.currentUser);
+
+    const target = await User.findOne({
+      uid: req.params.uid,
+    });
+
+    if (incomingRequestAuth.uid !== target?.uid) {
+      // The requested user mismatch the user the credentials
+      // Check for agency pivilledge
+      if (incomingRequestAuth.role !== "Agency") {
+        return res.status(401).send("Unauthorized");
+      }
+    }
+
+    return res.status(200).send(target?.balance);
+  } catch (e) {}
 });
 
 /**
@@ -153,3 +188,5 @@ pointRouter.post<
     res.status(500).send("An error has occured");
   }
 });
+
+export default pointRouter;

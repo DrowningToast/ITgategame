@@ -8,9 +8,11 @@ import {
   profileInfoAtom,
 } from "../jotai/store";
 import { useAtom } from "jotai";
-import axios from "axios";
+import axios, { Axios, AxiosError, AxiosInstance } from "axios";
 import WebworkerLoader from "../webworkers/loader";
 import tokenRefresher from "../webworkers/tokenRefresher";
+
+export const axiosAuthInstance: AxiosInstance = axios.create();
 
 const AuthUpdater = () => {
   const [profile, setProfile] = useAtom(firebaseUserAtom);
@@ -25,15 +27,34 @@ const AuthUpdater = () => {
       if (user) {
         const token = await getFirebaseToken();
         // Setup default header
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axiosAuthInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
         setProfile({ ...user, token });
         setToken(token);
         // Fetch data from backend if the backend url is detected
-        if (process.env.NEXT_PUBLIC_backend_url) {
+        if (
+          process.env.NEXT_PUBLIC_Dev_Backend_URL ||
+          process.env.NEXT_PUBLIC_Prod_Backend_URL
+        ) {
           try {
-            const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_backend_url}/user/`
+            const response = await axiosAuthInstance.get(
+              `${
+                process.env.NEXT_PUBLIC_Prod_Backend_URL ??
+                process.env.NEXT_PUBLIC_Dev_Backend_URL
+              }/users/${user.uid}`
             );
+            console.log(response);
+            if (response.status === 204) {
+              const response = await axiosAuthInstance.post(
+                `${
+                  process.env.NEXT_PUBLIC_Prod_Backend_URL ??
+                  process.env.NEXT_PUBLIC_Dev_Backend_URL
+                }/users/`,
+                {}
+              );
+              console.log(response);
+            }
             setInfo(response.data);
           } catch (e) {
             console.log(e);
@@ -66,6 +87,7 @@ const AuthUpdater = () => {
         console.log(e);
       }
     });
+    return () => {};
   }, []);
   return null;
 };

@@ -25,17 +25,17 @@ userRouter.get("/all", async (req, res) => {
 
 /**
  * @path /user/:uid
- * @param Agency
  * @description Get user of specific uid
  * @param
  */
 userRouter.get<{ uid: string }>("/:uid", async (req, res) => {
   try {
-    await validateRole(req?.currentUser, ["Agency"]);
+    await validateRole(req?.currentUser);
 
-    const user = await User.find({
+    const user = await User.findOne({
       uid: req.params.uid,
     });
+    0;
 
     return res.status(200).send(user);
   } catch (e) {
@@ -57,6 +57,7 @@ userRouter.get("/", async (req, res) => {
 
     return res.status(200).send(_);
   } catch (e) {
+    console.log("Err");
     res.status(e.code ?? 500).send(e);
   }
 });

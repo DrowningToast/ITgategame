@@ -15,7 +15,7 @@ import {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [User] = useAtom(firebaseUserAtom);
-  const [profile] = useAtom(profileInfoAtom);
+  const [Profile] = useAtom(profileInfoAtom);
 
   useEffect(() => {
     if (!User) return () => {};
@@ -24,9 +24,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       return console.error(
         "Fatal error the authorized user is missing the token"
       );
-    console.log(User);
+    if (axiosBackendInstance.defaults.headers.common["authorization"])
+      return () => {};
+    console.log(Profile);
     SetDefaultHeader(axiosBackendInstance, User?.token);
-  }, [User]);
+  }, [User, Profile]);
 
   return (
     <>

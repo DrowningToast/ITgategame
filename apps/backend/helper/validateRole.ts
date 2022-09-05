@@ -14,20 +14,27 @@ export interface validateRoleError extends Error {
  */
 const validateRole = async (
   user: DecodedIdToken | undefined,
-  requiredRoles?: string[]
-): Promise<DecodedIdToken & iUser> => {
+  requiredRoles?: string[],
+  bypassDatabaseSearch: boolean = false
+): Promise<(DecodedIdToken & iUser) | DecodedIdToken> => {
   return new Promise(async (resolve, reject) => {
     try {
       const userData = await User.findOne({ uid: user?.uid });
-      if (!user || !userData || !userData?.role) {
-        reject({ code: 400, message: "Not Authorized" });
+      if ((!user || !userData || !userData?.role) && bypassDatabaseSearch) {
+        reject({ code: 401, message: "Not Authorized" });
       } else if (
         requiredRoles?.length &&
-        !requiredRoles?.includes(userData?.role)
+        userData?.role &&
+        !requiredRoles?.includes(userData.role)
       ) {
         reject({ code: 403, message: "Insufficient Permission" });
+      } else if (userData) {
+        resolve({ ...user, ...userData?.toObject() });
       } else {
-        resolve({ ...user, ...userData.toObject() });
+        //@ts-ignore
+        resolve({
+          ...user,
+        });
       }
     } catch (e) {
       console.log(e);

@@ -12,6 +12,7 @@ export interface iUser {
   id: string;
   year: number;
   activated: boolean;
+  role: "Player" | "Admin" | "Agency";
 }
 
 const UserSchema = new mongoose.Schema({
@@ -30,7 +31,7 @@ const UserSchema = new mongoose.Schema({
   gate: {
     type: String,
     enum: ["AND", "OR", "NOR", "NOT"],
-    default: null,
+    require: false,
   },
   firstName: {
     type: String,

@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Hero from "../components/landing/Hero";
+import Scoreboard from "../components/scoreboard/Scoreboard";
 
 const Home: NextPage = () => {
   return (
@@ -11,7 +13,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="w-full min-h-screen grid place-items-center">
-        <h1 className="text-5xl font-semibold">Coming Soon</h1>
+        <Hero />
+        <Scoreboard />
       </main>
     </div>
   );

@@ -1,6 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "SD Ranger";
+  src: url("/fonts/SDRanger.ttf") format("truetype");
+}
 
 html,
 body {
@@ -17,6 +24,60 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.font-ranger {
+  font-family: "SD Ranger";
+}
+
+.font-bebas {
+  font-family: "Bebas Neue";
+}
+
+.font-kanit {
+  font-family: "Kanit";
+}
+
+.yellow-gradient-text {
+  background: linear-gradient(0deg, #fff500 23.67%, #fffff7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.upper-dark-gradient {
+  background: linear-gradient(
+    179.12deg,
+    #202020 1.5%,
+    rgba(62, 62, 62, 0) 99.24%
+  );
+}
+
+.bottom-dark-gradient {
+  background: linear-gradient(360deg, #3e3e3e 0%, rgba(43, 43, 43, 0) 100%);
+}
+
+.bg-and-gradient {
+  background: linear-gradient(0deg, #00e0ff 0%, #40e2e5 41.15%, #ffffff 100%);
+}
+
+.bg-or-gradient {
+  background: linear-gradient(0deg, #acfe00 0%, #ddf9d0 41.15%, #ddf9d0 100%);
+}
+
+.bg-nor-gradient {
+  background: linear-gradient(
+    0deg,
+    #ff0000 0%,
+    #ff0000 0.01%,
+    #d7551e 41.15%,
+    #ff6f6f 100%
+  );
+}
+
+.bg-not-gradient {
+  background: linear-gradient(0deg, #bd00ff 0%, #de81ff 41.15%, #f4d5ff 100%);
 }
 
 @media (prefers-color-scheme: dark) {

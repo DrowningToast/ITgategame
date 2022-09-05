@@ -10,6 +10,8 @@ export const axiosBackendInstance = axios.create({
       : process.env.NEXT_PUBLIC_Prod_Backend_URL,
 });
 
+// axiosBackendInstance.defaults.headers.common.[]
+
 /**
  * @description Attach the firebase token to every request to the backend
  * @param instance
