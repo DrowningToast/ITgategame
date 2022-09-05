@@ -48,7 +48,7 @@ const Hero = () => {
         {/* fire png */}
         <div
           style={{
-            backgroundImage: "url(/assets/fire.png)",
+            backgroundImage: "url(/assets/Fire.png)",
             // backgroundPosition: "50% 20%",
           }}
           className="absolute -inset-x-24 inset-y-0 md:inset-0 bg-no-repeat bg-center bg-cover blur-0 transform translate-y-1/4 md:scale-100 scale-75"
