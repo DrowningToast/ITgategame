@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Agenda from "../components/agenda/Agenda";
+import GGDay from "../components/banner/GGDay";
 import Hero from "../components/landing/Hero";
 import Scoreboard from "../components/scoreboard/Scoreboard";
 
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
         <Hero />
         <Scoreboard />
         <Agenda />
+        <GGDay />
       </main>
     </div>
   );

@@ -1,16 +1,22 @@
 import { FC } from "react";
 
 const NeonText: FC<{
-  className: string;
-}> = ({ children, className }) => {
+  className?: string;
+  ["nofg"]?: boolean;
+}> = ({ children, className, nofg }) => {
   return (
-    <div className={`w-auto h-auto absolute ${className}`}>
-      <div className="w-auto h-auto text-neon-shadow-b transform -translate-x-0.5 -translate-y-0.5">
-        {children}
-      </div>
-      <div className="w-auto h-auto text-neon-shadow-a">{children}</div>
-      <div className="w-auto h-auto text-neon-fg transform translate-x-0.5 translate-y-0.5">
-        {children}
+    <div className={`${className}`}>
+      <div className="w-auto h-auto text-neon-shadow-a relative">
+        <div className="">{children}</div>
+
+        <div className="w-auto h-auto text-neon-shadow-b transform absolute top-0 left-0  -translate-x-0.5 -translate-y-0.5 ">
+          {children}
+        </div>
+        {!(nofg && true) && (
+          <div className="w-auto h-auto text-neon-fg transform absolute top-0 left-0 translate-x-0.5 translate-y-0.5">
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );

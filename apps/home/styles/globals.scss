@@ -80,6 +80,38 @@ a {
   background: linear-gradient(0deg, #bd00ff 0%, #de81ff 41.15%, #f4d5ff 100%);
 }
 
+.neon-text {
+  position: relative;
+  z-index: 10;
+  color: #672cb4;
+}
+.neon-text:before {
+  content: attr(data-text);
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  z-index: 5;
+  color: #41ff60;
+}
+.neon-text:after {
+  content: attr(data-text);
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  z-index: 2;
+  color: #a057ff;
+}
+
+@media screen and (min-width: 1024px) {
+  .bg-gg-day {
+    background: linear-gradient(
+      270deg,
+      #4dfe6a 45.05%,
+      rgba(0, 0, 0, 0) 130.3%
+    ) !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

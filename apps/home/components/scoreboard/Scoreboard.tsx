@@ -31,11 +31,15 @@ const Scoreboard: FC<PropsA> = ({ teams }) => {
 
   return (
     <section className="px-8 xl:px-28 relative py-20 w-screen min-h-screen bg-semidark rounded-bl-[80px] rounded-br-[80px] xl:rounded-bl-3xl xl:rounded-br-3xl flex flex-col gap-y-16 justify-end xl:py-32">
-      <NeonText className="top-0 right-0">
+      <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute right-24 top-1/3">
+        <NeonText>Scoreboard</NeonText>
+      </h1>
+
+      {/* <NeonText className="top-0 right-0">
         <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute  top-20 right-12 xl:top-16 xl:right-16">
           Scoreboard
         </h1>
-      </NeonText>
+      </NeonText> */}
       <div className="flex flex-col xl:flex-row gap-y-10 xl:gap-x-12 2xl:gap-x-14 xl:justify-around xl:h-full">
         {gates?.map((gate, index) => {
           return (
