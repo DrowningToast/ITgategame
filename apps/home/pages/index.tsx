@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Agenda from "../components/agenda/Agenda";
 import Hero from "../components/landing/Hero";
 import Scoreboard from "../components/scoreboard/Scoreboard";
 
@@ -12,9 +13,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-full min-h-screen grid place-items-center">
+      <main className="bg-dark w-full overflow-x-hidden min-h-screen grid place-items-center">
         <Hero />
         <Scoreboard />
+        <Agenda />
       </main>
     </div>
   );

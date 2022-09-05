@@ -7,6 +7,11 @@
     "deploy": "del /f /s /q .build 1>nul && rmdir /s /q .build && del /f /s /q .serverless 1>nul && rmdir /s /q .serverless && serverless deploy"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-common-types": "^6.1.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.12",
+    "@fortawesome/free-brands-svg-icons": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@firebase/app-types": "^0.7.0",
     "@types/express": "^4.17.13",
     "@types/node": "^18.7.14",

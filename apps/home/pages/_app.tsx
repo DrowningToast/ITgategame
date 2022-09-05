@@ -19,14 +19,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (!User) return () => {};
-    console.log("Attaching token to the axios header");
+    // console.log("Attaching token to the axios header");
     if (!User?.token)
       return console.error(
         "Fatal error the authorized user is missing the token"
       );
     if (axiosBackendInstance.defaults.headers.common["authorization"])
       return () => {};
-    console.log(Profile);
+    // console.log(Profile);
     SetDefaultHeader(axiosBackendInstance, User?.token);
   }, [User, Profile]);
 

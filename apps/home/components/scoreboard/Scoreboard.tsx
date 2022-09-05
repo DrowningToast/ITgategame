@@ -24,68 +24,95 @@ const Scoreboard: FC<PropsA> = ({ teams }) => {
         "/point/teams"
       );
       setGates(teams.data);
-      console.log(teams);
     };
     fetchData();
     return () => {};
   }, []);
 
   return (
-    <section className="px-8 py-12 w-screen min-h-screen bg-semidark rounded-bl-[80px] rounded-br-[80px] flex flex-col gap-y-16">
-      <NeonText>
-        <h1 className="font-bebas text-5xl ">Scoreboard</h1>
+    <section className="px-8 xl:px-28 relative py-20 w-screen min-h-screen bg-semidark rounded-bl-[80px] rounded-br-[80px] xl:rounded-bl-3xl xl:rounded-br-3xl flex flex-col gap-y-16 justify-end xl:py-32">
+      <NeonText className="top-0 right-0">
+        <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute  top-20 right-12 xl:top-16 xl:right-16">
+          Scoreboard
+        </h1>
       </NeonText>
-      <div className="flex flex-col gap-y-10">
-        {gates.length &&
-          gates?.map((gate, index) => {
-            console.log(gate);
-            return (
-              <GateScore
-                gate={gate.gate}
-                widthClassname={`w-${4 - index}/${5 - index}`}
-                point={gate.totalPoints}
-                position={OrdinalSuffix(index + 1)}
-                width={85 - 15 * index}
-              />
-            );
-          })}
-
-        {/* <GateScore /> */}
+      <div className="flex flex-col xl:flex-row gap-y-10 xl:gap-x-12 2xl:gap-x-14 xl:justify-around xl:h-full">
+        {gates?.map((gate, index) => {
+          return (
+            <GateScore
+              key={`gatescore-${index}`}
+              gate={gate.gate}
+              point={gate.totalPoints}
+              position={OrdinalSuffix(index + 1)}
+              width={34 - (!index ? index : 15 + 2.5 * index)}
+              widthClassName={`w-${4 - index}/${5 - index}`}
+              index={index}
+            />
+          );
+        })}
       </div>
     </section>
   );
 };
 
 interface PropsB {
-  widthClassname: string;
   point: number;
   gate: "And" | "Or" | "Nor" | "Not";
   position: `${number}${string}`;
   width: number;
+  widthClassName: string;
+  index: number;
 }
 
 const GateScore: FC<PropsB> = ({
-  widthClassname,
   width,
   point,
   gate,
   position,
+  widthClassName,
+  index,
 }) => {
   return (
-    <div className="flex flex-col">
+    <>
+      {/* Desktop */}
       <div
-        style={{
-          width: `${width}%`,
-        }}
-        className={`text-dark bg-${gate.toLowerCase()}-gradient ${widthClassname} h-32 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
+        className={`hidden mt- xl:flex text-dark w-auto h-auto relative flex-col items-center justify-end`}
       >
-        <h2 className="text-4xl font-ranger uppercase">{gate}</h2>
-        <h3 className="text-xl font-ranger">{point} pts</h3>
-        <span className="font-bebas text-3xl text-white absolute top-1/2 -right-4 transform -translate-y-1/2 translate-x-full">
-          {position}
-        </span>
+        <div
+          style={{
+            width: `${width}vw`,
+          }}
+          className={`bg-${gate.toLowerCase()}-gradient aspect-square flex flex-col justify-center items-center relative`}
+        >
+          <h2 className={`text-${8 - index}xl font-ranger uppercase`}>
+            {gate}
+          </h2>
+          <h3 className="text-2xl font-ranger">{point} pts</h3>
+          <span
+            className={`font-bebas text-6xl text-white absolute top-0 left-0 transform -translate-y-full `}
+          >
+            {position}
+          </span>
+        </div>
       </div>
-    </div>
+      {/* Mobile */}
+      <div className="xl:hidden flex flex-col justify-end w-full">
+        <div
+          style={
+            {
+              // width: `${width}%`,
+            }
+          }
+          className={`text-dark ${widthClassName}  bg-${gate.toLowerCase()}-gradient h-32 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
+        >
+          <h2 className="text-4xl font-ranger uppercase">{gate}</h2>
+          <h3 className="text-xl font-ranger">{point} pts</h3>
+          <span className="font-bebas text-3xl text-white absolute top-1/2 -right-4 transform -translate-y-1/2 translate-x-full">
+            {position}
+          </span>
+        </div>
+      </div>
+    </>
   );
 };
 

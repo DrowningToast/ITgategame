@@ -29,7 +29,7 @@ const Hero = () => {
           </div>
           <button
             onClick={signin}
-            className="md:static absolute top-4 right-4 cursor-pointer my-4 tracking-widest inline-block font-light px-4 py-1 border-white border-2 md:border-4 rounded-md"
+            className="text-white md:static absolute top-4 right-4 cursor-pointer my-4 tracking-widest inline-block font-light px-4 py-1 border-white border-2 md:border-4 rounded-md"
           >
             เข้าสู่ระบบ
           </button>

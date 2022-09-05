@@ -44,7 +44,6 @@ const AuthUpdater = () => {
                 process.env.NEXT_PUBLIC_Dev_Backend_URL
               }/users/${user.uid}`
             );
-            console.log(response);
             if (response.status === 204) {
               const response = await axiosAuthInstance.post(
                 `${
@@ -53,7 +52,6 @@ const AuthUpdater = () => {
                 }/users/`,
                 {}
               );
-              console.log(response);
             }
             setInfo(response.data);
           } catch (e) {
