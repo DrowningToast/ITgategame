@@ -16,7 +16,7 @@ functions:
 
 plugins:
   - serverless-offline
-  - serverless-plugin-typescript
+  - serverless-webpack
 
 custom:
   serverless-offline:

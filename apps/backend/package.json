@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "serverless offline",
-    "deploy": "rmdir -r .serverless && rmdir -r .build && serverless deploy"
+    "deploy": "del /f /s /q .build 1>nul && rmdir /s /q .build && del /f /s /q .serverless 1>nul && rmdir /s /q .serverless && serverless deploy"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",
@@ -15,11 +15,12 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "firebase-admin": "^11.0.1",
-    "mongodb": "^4.9.1",
     "mongoose": "^6.5.3",
-    "morgan": "^1.10.0",
     "serverless-http": "^2.7.0",
-    "serverless-offline": "^9.3.1"
+    "serverless-offline": "^9.3.1",
+    "serverless-webpack": "^5.9.1",
+    "ts-loader": "^9.3.1",
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
     "serverless-plugin-typescript": "^2.1.2",
