@@ -1,13 +1,15 @@
-export interface Profile {
-  email: String;
-  discordUserId?: String;
-  uid: String;
-  linkToken?: String;
-  birth?: Date;
-  school?: String;
-  firstName?: String;
-  lastName?: String;
-  role: ["DEFAULT", "ADMIN"];
+export interface Profile extends U {
+  balance: number;
+  gate: "AND" | "OR" | "NOR" | "NOT";
+  firstName: string;
+  lastName: string;
+  userName: string;
+  year: number;
+  role: "Player" | "Admin" | "Agency";
+  activated: boolean;
+  id: string;
+  discordId: string;
+  discordToken: string;
 }
 
 import { User as U } from "firebase/auth";

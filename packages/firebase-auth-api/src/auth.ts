@@ -232,7 +232,7 @@ let googleProvider: GoogleAuthProvider | null = null;
  * @returns
  */
 export const signinWithGooglePopUp = (
-  middleware: (user: User) => Promise<void>
+  middleware?: (user: User) => Promise<void>
 ) => {
   if (!googleProvider) {
     googleProvider = new GoogleAuthProvider();

@@ -1,0 +1,26 @@
+.label {
+  text-align: center;
+}
+
+.radioGroup {
+  min-width: 50%;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: center;
+}
+
+.radioElement {
+  color: yellow;
+  margin: 0;
+  width: 100%;
+  display: inline-block;
+}
+
+.radioElement input {
+  color: yellow;
+  margin: 0;
+  width: 100%;
+  display: inline-block;
+}

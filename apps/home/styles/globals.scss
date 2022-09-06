@@ -102,6 +102,18 @@ a {
   color: #a057ff;
 }
 
+.card-signature {
+  background: linear-gradient(
+    181.4deg,
+    #ffffff 1.2%,
+    rgba(255, 255, 255, 0) 184.22%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
 @media screen and (min-width: 1024px) {
   .bg-gg-day {
     background: linear-gradient(

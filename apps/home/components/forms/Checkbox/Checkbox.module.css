@@ -1,0 +1,25 @@
+.inputCheckbox:focus {
+  outline-offset: 0.2rem;
+}
+
+.inputCheckbox {
+  padding: 0.3rem;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.55vw;
+  border: none;
+  min-width: 10px;
+}
+
+.Container {
+  display: grid;
+  grid-template-columns: 0.15fr 0.85fr;
+}
+
+.boxAfter {
+  grid-template-columns: 0.85fr 0.15fr;
+}
+
+.boxBefore {
+  grid-template-columns: 0.15fr 0.85fr;
+}

@@ -1,0 +1,9 @@
+.inputDate {
+  opacity: 0.9;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.55vw;
+  width: 10rem;
+  height: 100%;
+}

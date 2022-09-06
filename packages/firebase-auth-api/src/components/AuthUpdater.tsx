@@ -50,8 +50,11 @@ const AuthUpdater = () => {
                   process.env.NEXT_PUBLIC_Prod_Backend_URL ??
                   process.env.NEXT_PUBLIC_Dev_Backend_URL
                 }/users/`,
-                {}
+                {
+                  displayName: user.displayName,
+                }
               );
+              setInfo(response.data);
             }
             setInfo(response.data);
           } catch (e) {

@@ -1,0 +1,62 @@
+.inputSelect {
+    border: 2px solid rgba(229, 231, 235, 1);
+    padding: 0.3rem;
+    padding-left: 1rem;
+    box-sizing: border-box;
+    border-radius: 0.55vw;
+    width: 100%;
+    min-width: 50px;
+}
+  
+.choiceListContainer {
+  z-index: 1;
+  overflow-y: auto;
+  cursor: pointer;
+  position: absolute;
+  height: 15rem;
+  width: 100%;
+  background-color: white;
+  border: 2px solid rgba(229, 231, 235, 1);
+}
+
+.choiceList {
+  padding: 0.4rem 1rem;
+  margin-top: -2px;
+  font-size: 0.95em;
+  position: relative;
+}
+
+.choiceList:after {
+  content: "";
+  position: absolute;
+  width: 98%;
+  background-color: rgb(224, 224, 224);
+  height: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+}
+
+.choiceList:last-child:after {
+  display: none;
+}
+
+.choiceList:hover {
+  background-color: rgb(224, 224, 224);
+}
+
+.choiceListContainer::-webkit-scrollbar {
+  width: 12px;
+}
+
+.choiceListContainer::-webkit-scrollbar-track {
+  display: none;
+  margin: 1rem;
+}
+
+.choiceListContainer::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: rgb(182, 182, 182);
+  padding: 1rem;
+  border: 4px white solid;
+}

@@ -18,6 +18,11 @@
       "@i": ["../../types/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/forms/Text/Text.jsx"
+  ],
   "exclude": ["node_modules"]
 }

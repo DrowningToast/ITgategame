@@ -65,7 +65,14 @@ userRouter.get("/", async (req, res) => {
  * @description Create a user that never exists before
  * @path /user/
  */
-userRouter.post("/", async (req, res) => {
+userRouter.post<
+  "/",
+  {},
+  any,
+  {
+    displayName: string;
+  }
+>("/", async (req, res) => {
   try {
     let user = (await validateRole(req.currentUser)) as DecodedIdToken;
     if (user?._id)
@@ -79,11 +86,14 @@ userRouter.post("/", async (req, res) => {
         parseInt(
           `${user.email?.split("@")[0][0]}${user.email?.split("@")[0][1]}`
         ) - 45,
+      firstName: req.body.displayName.split(" ")[0],
+      lastName: req.body.displayName.split(" ")[1],
     });
 
     const response = await _.save();
     res.send(response);
   } catch (e) {
+    console.log(e);
     res.status(500).send(e);
   }
 });
