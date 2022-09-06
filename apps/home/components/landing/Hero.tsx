@@ -20,11 +20,11 @@ const Hero = () => {
         <div className="whitespace-pre w-screen md:w-auto text-center md:text-left text-sm md:text-2xl font-kanit z-20">
           <div className="md:static absolute top-1/3 left-1/2 transform -translate-x-1/2 md:translate-x-0 md:translate-y-0  tracking-widest">
             <span className="whitespace-pre text-tertiary font-kanit font-normal md:font-light">
-              กลับมาอีกครั้งสำหรับการแข่งขันในคณะที่ยิ่งใหญ่ที่สุด
+              กลับมาอีกครั้งสำหรับการมหกรรมแข่งขันที่ใหญ่ที่สุด
             </span>
             <br />
             <span className=" text-tertiary font-kanit font-normal md:font-light">
-              คณะไอทีจะต้องลุกเป็นไฟ
+              มันจะเป็นอีกครั้งที่คณะไอทีจะต้องลุกเป็นไฟ
             </span>
           </div>
           <button

@@ -12,6 +12,7 @@ import {
   axiosBackendInstance,
   SetDefaultHeader,
 } from "../components/axios/helper";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [User] = useAtom(firebaseUserAtom);
