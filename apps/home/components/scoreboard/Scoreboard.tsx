@@ -25,7 +25,7 @@ const Scoreboard: FC<PropsA> = ({ teams }) => {
       );
       setGates(teams.data);
     };
-    fetchData();
+    if (!teams) fetchData();
     return () => {};
   }, []);
 
