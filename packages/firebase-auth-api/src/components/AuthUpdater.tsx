@@ -45,7 +45,8 @@ const AuthUpdater = () => {
                 process.env.NEXT_PUBLIC_Dev_Backend_URL
               }/users/${user.uid}`
             );
-            if (response.status === 204) {
+            // Haven't created a user yet
+            if (!response.data) {
               const response = await axiosAuthInstance.post(
                 `${
                   process.env.NEXT_PUBLIC_Prod_Backend_URL ??
