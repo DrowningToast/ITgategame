@@ -1,6 +1,7 @@
 import express, { Request } from "express";
 import validateRole from "../helper/validateRole";
 import Gate from "../models/Gate";
+import Transaction from "../models/Transaction";
 import User from "../models/User";
 
 const pointRouter = express.Router();
@@ -168,19 +169,30 @@ pointRouter.post<
  * @description Adjust a user value incrementally
  */
 pointRouter.post<
-  "/incremental/:uid",
-  { uid: string },
+  "/incremental/:id",
+  { id: string },
   {},
   {
+    reason: string;
     value: number;
   }
->("/incremental/:uid", async (req, res) => {
+>("/incremental/:id", async (req, res) => {
   try {
     const requester = await validateRole(req?.currentUser, ["Agency"]);
 
+    const newTransaction = new Transaction({
+      type: "Reward",
+      date: new Date(),
+      value: req.body.value,
+      reason: req.body.reason,
+    });
+
+    await newTransaction.save();
+
     const response = await User.findOneAndUpdate(
       {
-        uid: req.params.uid,
+        id: req.params.id,
+        activated: true,
       },
       {
         $inc: {
@@ -189,9 +201,12 @@ pointRouter.post<
       }
     );
 
+    if (!response) return res.status(404).send("User not found");
+
     return res.status(200).send(JSON.parse(JSON.stringify(response)));
   } catch (e) {
-    res.status(500).send("An error has occured");
+    console.log(e);
+    res.status(e.code ?? 500).send(e.message ?? "An error has occured");
   }
 });
 

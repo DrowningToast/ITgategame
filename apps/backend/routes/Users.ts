@@ -88,6 +88,7 @@ userRouter.post<
         ) - 45,
       firstName: req.body.displayName.split(" ")[0],
       lastName: req.body.displayName.split(" ")[1],
+      role: "Player",
     });
 
     const response = await _.save();

@@ -16,7 +16,8 @@
     "incremental": true,
     "paths": {
       "@i": ["../../types/*"]
-    }
+    },
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",
