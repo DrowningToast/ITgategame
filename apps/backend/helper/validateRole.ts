@@ -37,7 +37,6 @@ const validateRole = async (
         });
       }
     } catch (e) {
-      console.log(e);
       reject({ code: 500, message: "Unknown validation error" });
     }
   });

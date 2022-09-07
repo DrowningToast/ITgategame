@@ -67,6 +67,7 @@ const Agenda = () => {
 
   return (
     <section className="py-20 xl:px-28 2xl:px-40 flex flex-col items-center gap-y-4 xl:gap-x-8 xl:grid xl:grid-cols-[0.35fr_0.65fr] xl:items-start">
+      {/* @ts-ignore */}
       <div className="w-1/2 w-2/3 w-3/4 w-4/5 absolute"></div>
       <div className="xl:flex xl:flex-col xl:gap-y-8">
         <h1 className="xl:text-tertiary text-white text-6xl md:text-7xl lg:text-8xl xl:text-9xl xl:text-left uppercase text-center font-bebas inline-block w-full">

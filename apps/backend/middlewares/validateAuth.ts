@@ -27,7 +27,6 @@ const validateAuth = async (req, res, next) => {
       req["currentUser"] = deocdeToken;
       return next();
     } catch (err) {
-      console.log("Error while trying to verifying user");
       console.log(err);
       return next();
     }

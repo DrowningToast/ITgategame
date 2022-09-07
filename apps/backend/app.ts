@@ -6,6 +6,7 @@ import userRouter from "./routes/Users";
 import pointRouter from "./routes/Point";
 import useMongoose from "./middlewares/connectMongoose";
 import Gate from "./models/Gate";
+import transactionRouter from "./routes/Transactions";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(Cors());
 
 app.use("/users", userRouter);
 app.use("/point", pointRouter);
+app.use("/transactions", transactionRouter);
 
 app.get("/", (req, res, next) => {
   try {

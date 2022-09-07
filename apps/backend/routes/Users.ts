@@ -115,34 +115,33 @@ userRouter.post<
   try {
     const user = await validateRole(req.currentUser);
 
-    if (!user.activated)
+    if (user.activated)
       return res.status(400).send("The user has already verify");
 
     const response = await User.findOneAndUpdate(
-      { uid: user.uid },
+      { uid: user.uid, activated: false },
       {
         // First starting income
         balance: 50,
         activated: true,
         gate: req.body.gate,
-        username: req.body.userName,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        userName: req.body.userName,
       }
     );
 
     // Save a new transaction
-
     const transaction = new Transaction({
       target: response?._id,
       value: 50,
       type: "New",
+      reason: "New account",
     });
 
     await transaction.save();
 
     res.send(response);
   } catch (e) {
+    console.log(e);
     res.status(500).send("Something went wrong");
   }
 });
@@ -155,10 +154,7 @@ userRouter.patch<
   {},
   {},
   {
-    gate: "AND" | "OR" | "NOR" | "NOT";
     userName: string;
-    firstName: string;
-    lastName: string;
   }
 >("/", async (req, res) => {
   try {
@@ -171,8 +167,6 @@ userRouter.patch<
       },
       {
         userName: req.body.userName,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
       }
     );
 

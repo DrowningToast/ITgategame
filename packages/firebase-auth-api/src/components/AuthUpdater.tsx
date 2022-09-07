@@ -32,6 +32,7 @@ const AuthUpdater = () => {
         ] = `Bearer ${token}`;
         setProfile({ ...user, token });
         setToken(token);
+
         // Fetch data from backend if the backend url is detected
         if (
           process.env.NEXT_PUBLIC_Dev_Backend_URL ||
@@ -66,6 +67,7 @@ const AuthUpdater = () => {
         }
       } else {
         setProfile(null);
+        setInfo(null);
       }
       setReady(true);
     });

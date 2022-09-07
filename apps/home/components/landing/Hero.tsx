@@ -1,23 +1,16 @@
 import {
   firebaseUserAtom,
-  profileInfoAtom,
   signinWithGooglePopUp,
   SignOut,
 } from "firebase-auth-api";
 import { User } from "firebase/auth";
 import { useAtom } from "jotai";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { axiosBackendInstance } from "../axios/helper";
 import Wallet from "../wallet/Wallet";
 
 const Hero = () => {
   const router = useRouter();
   const [user] = useAtom(firebaseUserAtom);
-  const [profile] = useAtom(profileInfoAtom);
-
-  console.log(user);
-  console.log(profile);
 
   const checkDomainName = async (user: User) => {
     const domain = user.email?.split("@")[1];
@@ -40,10 +33,9 @@ const Hero = () => {
       return;
     }
   };
-
   return (
-    <section className="bg-dark w-screen min-h-screen md:px-20 py-12 md:py-28 relative">
-      {!profileInfoAtom ? (
+    <section className="bg-dark w-screen min-h-screen h-auto md:px-20 py-12 md:py-28 relative">
+      {!user ? (
         <div className="flex flex-col gap-y-8 z-20">
           <div className="flex flex-col justify-center md:items-start items-center mx-auto md:mx-0 px-2  z-20">
             <h1 className="yellow-gradient-text leading-[240px] inline-block align-middle font-extrabold text-8xl md:text-[240px] font-ranger pr-8">

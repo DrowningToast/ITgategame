@@ -1,5 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
+export interface Transaction {
+  type: "New" | "Reward" | "Lottery" | "Bingo";
+  value: number;
+  target: Schema.Types.ObjectId;
+  reason: string;
+  date: Date;
+}
+
 const TransactionSchema = new mongoose.Schema({
   type: {
     type: String,
@@ -12,6 +20,10 @@ const TransactionSchema = new mongoose.Schema({
   target: {
     type: Schema.Types.ObjectId,
     ref: "User",
+  },
+  date: {
+    type: Date,
+    default: new Date(),
   },
   reason: {
     type: String,
