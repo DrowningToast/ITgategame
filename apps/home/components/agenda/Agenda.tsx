@@ -74,10 +74,8 @@ const Agenda = () => {
           Agenda
         </h1>
         <p className="text-gray-300 font-kanit xl:font-light mx-12 xl:mx-0 text-base xl:text-xl xl:col-start-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, sequi
-          voluptatum dolor voluptas earum error accusamus consectetur itaque
-          ipsa laboriosam cumque fuga dolorem asperiores molestias omnis velit
-          delectus repellat possimus!
+          ปฏิทินกิจกรรมของ ITGG2022
+          สามารถติดตามปฏิทินกิจกรรมปีนี้ได้ที่นี้เล้ยยยยย!!!
         </p>
         <nav className="flex xl:flex-col xl:items-center xl:col-start-1 xl:gap-y-4 justify-center xl:justify-start gap-x-4">
           {dates?.map((date, index) => {

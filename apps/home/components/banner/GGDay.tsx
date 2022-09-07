@@ -29,22 +29,11 @@ const GGDay = () => {
         This 19th September @ IT KMITL
       </h2>
       <div className="z-10 col-start-2">
-        <p className="font-kanit font-light text-sm lg:text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos ipsa
-          recusandae molestiae sunt, esse incidunt quo aliquam aspernatur fugit
-          ad id. Incidunt fugiat sunt ut quo libero officia obcaecati est? Lorem
-          ipsum dolor sit amet consectetur?
+        <p className="font-kanit font-medium lg:text-lg">
+          กิจกรรมมาพร้อมกับความยิ่งใหญ่กว่าใคร ด้วยธีมอะไรนั้น ขออุ๊บไว้ก่อน
+          รอติดตามกิจกรรมครั้งนี้ได้เลย
         </p>
         <br />
-        <p className="font-kanit font-light text-sm lg:text-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Non,
-          temporibus illum porro maiores officiis possimus debitis illo
-          blanditiis quaerat quo. Modi placeat dolores facilis. Quam neque enim
-          beatae distinctio nisi. Lorem ipsum dolor sit amet, consectetur
-          adipisicing elit. Animi cum aperiam excepturi beatae iure dicta iusto
-          labore fugiat! Molestiae sed non doloremque possimus esse expedita
-          totam aliquid tenetur quidem.
-        </p>
       </div>
     </section>
   );

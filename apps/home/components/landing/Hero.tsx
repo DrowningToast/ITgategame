@@ -48,11 +48,11 @@ const Hero = () => {
           <div className="whitespace-pre w-screen md:w-auto text-center md:text-left text-sm md:text-2xl font-kanit z-20 mt-48 md:mt-0">
             <div className="md:static absolute top-1/3 left-1/2 transform -translate-x-1/2 md:translate-x-0 md:translate-y-0  tracking-widest">
               <span className="whitespace-pre text-tertiary font-kanit font-normal md:font-light">
-                กลับมาอีกครั้งสำหรับการมหกรรมแข่งขันที่ใหญ่ที่สุด
+                ITGG2022 มหกรรมการแข่งขันที่ยิ่งใหญ่ที่สุดในไอทีลาดกระบัง
               </span>
               <br />
               <span className=" text-tertiary font-kanit font-normal md:font-light">
-                มันจะเป็นอีกครั้งที่คณะไอทีจะต้องลุกเป็นไฟ
+                กำลังจะลุกเป็นไฟอีกครั้ง!
               </span>
             </div>
             <button
