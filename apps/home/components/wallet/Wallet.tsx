@@ -142,14 +142,14 @@ const Wallet = () => {
   return (
     <>
       {profile?.email && (
-        <div className="flex flex-col overflow-auto px-12 gap-y-2">
-          <h1 className="text-white font-bebas text-2xl tracking-wider z-20">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 md:gap-y-4 lg:gap-x-6 items-center lg:max-h-full overflow-auto px-12 gap-y-2">
+          <h1 className="lg:col-start-1 lg:row-start-1 text-white font-bebas text-2xl md:text-3xl tracking-wider z-20">
             {profile?.activated
               ? `Welcome back, ${profile.userName}`
               : "Confirm your identity"}
           </h1>
           {/* Card */}
-          <div className="w-full aspect-[9/15] bg-white rounded-xl z-20 relative overflow-hidden shadow-xl">
+          <div className="lg:col-start-1 lg:row-start-2 w-full md:w-4/5 aspect-[9/15] sm:max-w-sm bg-white rounded-xl z-20 relative overflow-hidden shadow-xl">
             {/* BG */}
             <div className="absolute inset-0 blur-[64px]">
               {/* Circle#1 */}
@@ -164,14 +164,14 @@ const Wallet = () => {
               {/* Circle#3 */}
               <div className="bg-[#2F4153] w-[200%] aspect-square absolute -left-12 bottom-0 transform translate-y-1/2 rounded-full"></div>
             </div>
-            <div className="py-4 px-6 relative w-full h-full flex flex-col items-start justify-end">
+            <div className="py-4 px-6 md:p-8 relative w-full h-full flex flex-col items-start justify-end">
               {profile?.activated && (
                 <div
                   className={`${
                     profile?.gate === "AND" || "OR" ? "text-dark" : "text-white"
                   } absolute top-5 right-5 flex flex-col items-end justify-start`}
                 >
-                  <h1 className={`text-5xl  font-bebas grayscale `}>
+                  <h1 className={`text-5xl md:text-7xl font-bebas grayscale `}>
                     {profile?.balance}
                   </h1>
                   <h5 className="text-2xl font-bebas">pts</h5>
@@ -180,17 +180,17 @@ const Wallet = () => {
               <span className="font-bebas text-white tracking-widest font-light text-base">
                 {`${fallbackId[0]}${fallbackId[1]} ${fallbackId[2]}${fallbackId[3]} ${fallbackId[4]}${fallbackId[5]}${fallbackId[6]}`}
               </span>
-              <span className="font-bebas text-white tracking-wider text-4xl">
+              <span className="font-bebas text-white tracking-wider text-4xl md:text-3xl">
                 {profile?.firstName ?? "New"}
               </span>
-              <span className="font-bebas text-white tracking-widest text-2xl">
+              <span className="font-bebas text-white tracking-widest text-2xl md:text-xl">
                 {profile?.lastName ?? "Issue"}
               </span>
               <canvas
                 ref={Canvas}
-                className="w-24 aspect-square border-2 border-gray-300"
+                className="w-24 md:w-32 lg:w-24 aspect-square border-2 border-gray-300"
               ></canvas>
-              <span className="font-ranger card-signature absolute right-4 bottom-2 text-3xl">
+              <span className="font-ranger card-signature absolute right-4 bottom-2 md:bottom-6 md:right-8 text-3xl md:text-4xl">
                 ITGG
               </span>
             </div>
@@ -199,7 +199,7 @@ const Wallet = () => {
           {!profile?.activated || isEditing ? (
             <form
               onSubmit={handleSubmit(handleConfirm)}
-              className="z-20 flex flex-col items-start justify-start gap-y-2 text-white font-bebas text-xl font-light w-full"
+              className="lg:col-start-2 lg:row-start-2 z-20 flex flex-col items-start justify-start gap-y-2 text-white font-bebas text-xl font-light w-full"
             >
               <label>Username</label>
               <input
@@ -250,10 +250,10 @@ const Wallet = () => {
               </div>
             </form>
           ) : (
-            <div className="w-full h-full mt-4 flex flex-col gap-y-2">
+            <div className="lg:col-start-2 lg:row-start-2 w-full h-full mt-4 flex flex-col gap-y-2 md:px-6 overflow-y-scroll">
               <h1
                 onClick={fetchData}
-                className="font-bebas tracking-widest text-2xl z-20 text-white text-center"
+                className="font-bebas tracking-widest text-2xl md:text-3xl z-20 text-white text-center"
               >
                 Transaction Log
               </h1>
@@ -282,7 +282,7 @@ const Wallet = () => {
                   </div>
                 );
               })}
-              <div className="flex justify-around z-20 gap-x-4 justify-self-end font-kanit absolute bottom-6 inset-x-8">
+              <div className="flex justify-around z-20 gap-x-4 justify-self-end font-kanit absolute bottom-6 lg:bottom-12 inset-x-8 md:inset-x-14 md:text-2xl">
                 <button
                   onClick={() => setEditing(true)}
                   className="rounded-xl w-full py-1 border-2 border-white"

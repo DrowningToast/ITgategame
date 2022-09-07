@@ -34,7 +34,7 @@ const Hero = () => {
     }
   };
   return (
-    <section className="bg-dark w-screen min-h-screen h-auto md:px-20 py-12 md:py-28 relative">
+    <section className="bg-dark w-screen md:px-20 pt-8 pb-20 md:py-28 lg:py-14 relative min-h-screen lg:max-h-screen lg:flex lg:flex-col">
       {!user ? (
         <div className="flex flex-col gap-y-8 z-20">
           <div className="flex flex-col justify-center md:items-start items-center mx-auto md:mx-0 px-2  z-20">
@@ -45,7 +45,7 @@ const Hero = () => {
               2022
             </h2>
           </div>
-          <div className="whitespace-pre w-screen md:w-auto text-center md:text-left text-sm md:text-2xl font-kanit z-20">
+          <div className="whitespace-pre w-screen md:w-auto text-center md:text-left text-sm md:text-2xl font-kanit z-20 mt-48 md:mt-0">
             <div className="md:static absolute top-1/3 left-1/2 transform -translate-x-1/2 md:translate-x-0 md:translate-y-0  tracking-widest">
               <span className="whitespace-pre text-tertiary font-kanit font-normal md:font-light">
                 กลับมาอีกครั้งสำหรับการมหกรรมแข่งขันที่ใหญ่ที่สุด

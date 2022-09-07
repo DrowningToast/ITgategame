@@ -108,10 +108,10 @@ const GateScore: FC<PropsB> = ({
               // width: `${width}%`,
             }
           }
-          className={`text-dark ${widthClassName}  bg-${gate.toLowerCase()}-gradient h-24 lg:h-20 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
+          className={`text-dark ${widthClassName} bg-${gate.toLowerCase()}-gradient h-36 md:h-52 lg:h-20 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
         >
-          <h2 className="text-4xl font-ranger uppercase">{gate}</h2>
-          <h3 className="text-xl font-ranger">{point} pts</h3>
+          <h2 className="text-4xl md:text-6xl font-ranger uppercase">{gate}</h2>
+          <h3 className="text-xl md:text-2xl font-ranger">{point} pts</h3>
           <span className="font-bebas text-3xl text-white absolute top-1/2 -right-4 transform -translate-y-1/2 translate-x-full">
             {position}
           </span>

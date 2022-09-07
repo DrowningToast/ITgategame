@@ -155,6 +155,7 @@ userRouter.patch<
   {},
   {
     userName: string;
+    gate: "AND" | "OR" | "NOR" | "NOT";
   }
 >("/", async (req, res) => {
   try {
@@ -167,6 +168,7 @@ userRouter.patch<
       },
       {
         userName: req.body.userName,
+        gate: req.body.gate,
       }
     );
 
