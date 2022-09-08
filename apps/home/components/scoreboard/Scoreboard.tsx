@@ -32,7 +32,7 @@ const Scoreboard: FC<PropsA> = ({ teams }) => {
   return (
     <section className="px-8 xl:px-28 relative py-20 w-screen bg-semidark rounded-bl-[80px] rounded-br-[80px] xl:rounded-bl-3xl xl:rounded-br-3xl flex flex-col gap-y-16 justify-end xl:py-32">
       <div className="absolute text-7xl"></div>
-      <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute right-24 top-20 xl:top-1/3">
+      <h1 className="font-bebas text-6xl lg:text-7xl xl:text-8xl absolute right-24 top-20 xl:top-1/5">
         <NeonText>Scoreboard</NeonText>
       </h1>
 
@@ -41,7 +41,7 @@ const Scoreboard: FC<PropsA> = ({ teams }) => {
           Scoreboard
         </h1>
       </NeonText> */}
-      <div className="min-h-screen justify-end flex flex-col xl:flex-row gap-y-10 xl:gap-x-12 2xl:gap-x-14 xl:justify-around xl:h-full">
+      <div className="min-h-screen xl:min-h-0 justify-end flex flex-col xl:flex-row gap-y-10 xl:gap-x-12 2xl:gap-x-14 xl:justify-around xl:h-full">
         {gates?.map((gate, index) => {
           return (
             <GateScore
@@ -81,7 +81,7 @@ const GateScore: FC<PropsB> = ({
     <>
       {/* Desktop */}
       <div
-        className={`hidden mt- xl:flex text-dark w-auto h-auto relative flex-col items-center justify-end`}
+        className={`hidden xl:flex text-dark w-auto h-auto relative flex-col items-center justify-end`}
       >
         <div
           style={{
@@ -108,7 +108,7 @@ const GateScore: FC<PropsB> = ({
               // width: `${width}%`,
             }
           }
-          className={`text-dark ${widthClassName} bg-${gate.toLowerCase()}-gradient h-36 md:h-52 lg:h-20 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
+          className={`text-dark ${widthClassName} bg-${gate.toLowerCase()}-gradient h-36 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
         >
           <h2 className="text-4xl md:text-6xl font-ranger uppercase">{gate}</h2>
           <h3 className="text-xl md:text-2xl font-ranger">{point} pts</h3>

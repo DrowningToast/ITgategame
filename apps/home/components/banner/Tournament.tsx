@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Tournament = () => {
   return (
@@ -10,7 +11,10 @@ const Tournament = () => {
       </div>
       <Link href="https://challonge.com/itggvalorant" passHref>
         <a target="_blank" className="inline-block w-full">
-          <div
+          <motion.div
+            whileHover={{
+              scale: 1.1,
+            }}
             style={{
               backgroundImage: "url(/assets/Valorant.png)",
             }}
@@ -20,7 +24,7 @@ const Tournament = () => {
             <h2 className="font-bebas text-xl tracking-wide">
               Click here to see the brackets
             </h2>
-          </div>
+          </motion.div>
         </a>
       </Link>
       <Link
@@ -28,7 +32,10 @@ const Tournament = () => {
         passHref
       >
         <a target="_blank" className="inline-block w-full">
-          <div
+          <motion.div
+            whileHover={{
+              scale: 1.1,
+            }}
             style={{
               backgroundImage: "url(/assets/rov.png)",
             }}
@@ -38,7 +45,7 @@ const Tournament = () => {
             <h2 className="font-bebas text-xl tracking-wide">
               Click here to see the brackets
             </h2>
-          </div>
+          </motion.div>
         </a>
       </Link>
     </section>

@@ -3,7 +3,7 @@ import NeonText from "../utils/NeonText";
 
 const GGDay = () => {
   return (
-    <section className="relative flex flex-col items-center justify-start px-8 py-12 lg:py-24 gap-y-4 lg:grid lg:grid-cols-2">
+    <section className="relative flex flex-col items-center justify-start px-8 py-12 lg:py-24 gap-y-4 lg:grid lg:grid-cols-2 text-dark">
       <div
         style={{
           backgroundImage: "url(/assets/GGDay.png)",

@@ -9,11 +9,11 @@ const NeonText: FC<{
       <div className="w-auto h-auto text-neon-shadow-a relative">
         <div className="">{children}</div>
 
-        <div className="w-auto h-auto text-neon-shadow-b transform absolute top-0 left-0  -translate-x-0.5 -translate-y-0.5 ">
+        <div className="w-auto h-auto text-neon-shadow-b transform absolute top-0 left-0 -translate-x-0.5 -translate-y-0.5 md:-translate-x-1 md:translate-y-1">
           {children}
         </div>
         {!(nofg && true) && (
-          <div className="w-auto h-auto text-neon-fg transform absolute top-0 left-0 translate-x-0.5 translate-y-0.5">
+          <div className="w-auto h-auto text-neon-fg transform absolute top-0 left-0 translate-x-0.5 translate-y-0.5 md:translate-x-1 md:translate-y-1">
             {children}
           </div>
         )}

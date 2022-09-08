@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { axiosBackendInstance } from "../axios/helper";
 import { useRouter } from "next/router";
 import { Transaction } from "../../../backend/models/Transaction";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface payload {
   userName: string;
@@ -55,10 +56,20 @@ const Wallet = () => {
   useEffect(() => {
     if (!profile?.id || !Canvas.current) return;
     console.log(profile?.id);
-    QRCode.toCanvas(Canvas.current, profile?.id, function (error) {
-      if (error) console.error(error);
-      console.log("QR Generated");
-    });
+    QRCode.toCanvas(
+      Canvas.current,
+      profile?.id,
+      {
+        margin: 0,
+        color: {
+          light: "#ffffff",
+        },
+      },
+      function (error) {
+        if (error) console.error(error);
+        console.log("QR Generated");
+      }
+    );
   }, [profile?.id]);
 
   // Manage gate color
@@ -124,32 +135,31 @@ const Wallet = () => {
     fetchData();
   }, [profile, token]);
 
-  // console.log(profile);
-  // console.log(color);
-
-  const fetchData = async () => {
-    try {
-      const response = await axiosBackendInstance.get<Transaction[]>(
-        "/transactions"
-      );
-      setTransactions([...response.data]);
-    } catch (e) {
-      console.error(e);
-      alert("An error has occured while trying to fetch transaction log");
-    }
-  };
-
   return (
     <>
       {profile?.email && (
-        <div className="flex flex-col lg:grid lg:grid-cols-2 md:gap-y-4 lg:gap-x-6 items-center lg:max-h-full overflow-auto px-12 gap-y-2">
+        <motion.div
+          key={"wallet"}
+          initial={{
+            opacity: 0,
+            zIndex: 50,
+          }}
+          animate={{
+            opacity: 1,
+            zIndex: 50,
+            transition: {
+              duration: 2,
+            },
+          }}
+          className="flex flex-col lg:grid lg:grid-cols-2 md:gap-y-4 lg:gap-x-6 items-center lg:max-h-full overflow-hidden px-12 gap-y-2"
+        >
           <h1 className="lg:col-start-1 lg:row-start-1 text-white font-bebas text-2xl md:text-3xl tracking-wider z-20">
             {profile?.activated
               ? `Welcome back, ${profile.userName}`
               : "Confirm your identity"}
           </h1>
           {/* Card */}
-          <div className="lg:col-start-1 lg:row-start-2 w-full md:w-4/5 aspect-[9/15] sm:max-w-sm bg-white rounded-xl z-20 relative overflow-hidden shadow-xl">
+          <div className="lg:col-start-1 lg:row-start-2 w-full md:w-4/5 aspect-[9/15] sm:max-w-[320px] bg-white rounded-xl z-20 relative overflow-hidden shadow-xl">
             {/* BG */}
             <div className="absolute inset-0 blur-[64px]">
               {/* Circle#1 */}
@@ -188,117 +198,113 @@ const Wallet = () => {
               </span>
               <canvas
                 ref={Canvas}
-                className="w-24 md:w-32 lg:w-24 aspect-square border-2 border-gray-300"
+                className="w-16 sm:w-24 md:w-32 lg:w-24 aspect-square border-2 border-gray-300"
               ></canvas>
-              <span className="font-ranger card-signature absolute right-4 bottom-2 md:bottom-6 md:right-8 text-3xl md:text-4xl">
+              <span className="pr-1 font-ranger card-signature absolute right-4 bottom-2 md:bottom-6 md:right-8 text-3xl md:text-4xl">
                 ITGG
               </span>
             </div>
           </div>
           {/* Form */}
-          {!profile?.activated || isEditing ? (
-            <form
-              onSubmit={handleSubmit(handleConfirm)}
-              className="lg:col-start-2 lg:row-start-2 z-20 flex flex-col items-start justify-start gap-y-2 text-white font-bebas text-xl font-light w-full"
-            >
-              <label>Username</label>
-              <input
-                type="text"
-                {...register("userName", {
-                  required: true,
-                })}
-                placeholder={""}
-                required
-                className="w-full bg-transparent tracking-widest font-kanit placeholder-white border-white border-4 px-2 py-1 rounded-xl"
-              />
-              <label>Gate</label>
-              <select
-                required
-                className="text-white bg-transparent border-4 border-white w-full rounded-xl py-1 px-2"
-                {...register("gate")}
+          <AnimatePresence exitBeforeEnter>
+            {!profile?.activated || isEditing ? (
+              <motion.form
+                key="form"
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                exit={{
+                  opacity: 0,
+                }}
+                layout
+                onSubmit={handleSubmit(handleConfirm)}
+                className="lg:col-start-2 lg:row-start-2 z-20 flex flex-col items-start justify-start gap-y-2 text-white font-bebas text-xl font-light w-full"
               >
-                <option className="text-dark" value={"AND"}>
-                  And
-                </option>
-                <option className="text-dark" value={"OR"}>
-                  Or
-                </option>
-                <option className="text-dark" value={"NOR"}>
-                  Nor
-                </option>
-                <option className="text-dark" value={"NOT"}>
-                  Not
-                </option>
-              </select>
-              <div className="flex justify-around gap-x-2 w-full mt-4">
-                <Submit
-                  text="ยืนยัน"
-                  ClassName={`${
-                    isLoading ? "bg-gray" : "bg-secondary"
-                  } w-full font-kanit  text-semidark rounded-lg py-2 px-2 text-xl font-semibold`}
-                  noDefaultStyles={true}
+                <label>Username</label>
+                <input
+                  type="text"
+                  {...register("userName", {
+                    required: true,
+                  })}
+                  placeholder={""}
+                  required
+                  className="w-full bg-transparent tracking-widest font-kanit placeholder-white border-white  border-2 lg:border-4 px-2 py-1 rounded-xl"
                 />
-                <button
-                  onClick={() => {
-                    if (!isEditing) return router.push("/signout");
-                    setEditing(false);
-                  }}
-                  className="w-full border-white border-2 text-white font-kanit rounded-lg py-2"
+                <label>Gate</label>
+                <select
+                  required
+                  className="text-white bg-transparent  border-2 lg:border-4 border-white w-full rounded-xl py-1 px-2"
+                  {...register("gate")}
                 >
-                  {!isEditing ? "ออกจากระบบ" : "ยกเลิก"}
-                </button>
-              </div>
-            </form>
-          ) : (
-            <div className="lg:col-start-2 lg:row-start-2 w-full h-full mt-4 flex flex-col gap-y-2 md:px-6 overflow-y-scroll">
-              <h1
-                onClick={fetchData}
-                className="font-bebas tracking-widest text-2xl md:text-3xl z-20 text-white text-center"
+                  <option className="text-dark" value={"AND"}>
+                    And
+                  </option>
+                  <option className="text-dark" value={"OR"}>
+                    Or
+                  </option>
+                  <option className="text-dark" value={"NOR"}>
+                    Nor
+                  </option>
+                  <option className="text-dark" value={"NOT"}>
+                    Not
+                  </option>
+                </select>
+                <div className="flex justify-around gap-x-2 w-full mt-4">
+                  <Submit
+                    text="ยืนยัน"
+                    ClassName={`${
+                      isLoading ? "bg-gray" : "bg-secondary"
+                    } w-full font-kanit  text-semidark rounded-lg py-2 px-2 text-xl font-semibold`}
+                    noDefaultStyles={true}
+                  />
+                  <button
+                    onClick={() => {
+                      if (!isEditing) return router.push("/signout");
+                      setEditing(false);
+                    }}
+                    type="button"
+                    className="w-full border-white border-2 text-white font-kanit rounded-lg py-2 cursor-pointer"
+                  >
+                    {!isEditing ? "ออกจากระบบ" : "ยกเลิก"}
+                  </button>
+                </div>
+              </motion.form>
+            ) : (
+              <motion.div
+                layout
+                key="buttons"
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                exit={{
+                  opacity: 0,
+                }}
+                className="lg:col-start-2 lg:row-start-2 w-full h-full mt-4 flex flex-col gap-y-2 md:px-6"
               >
-                Transaction Log
-              </h1>
-              {transactions.map((transaction, index) => {
-                if (index > 3) return;
-
-                return (
-                  <div className="w-full flex flex-col z-20">
-                    <div className="flex justify-between z-20 text-white text-2xl font-bebas">
-                      <h3 className="z-20 tracking-widest">
-                        {transaction.reason}
-                      </h3>
-                      <h3
-                        className={`z-20 tracking-widest font-bold ${
-                          transaction?.value > 0
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}
-                      >
-                        {transaction.value}
-                      </h3>
-                    </div>
-                    {/* <h5>{`${new Date(transaction.date).getUTCDate()}/${new Date(
-                    transaction.date
-                  ).getMonth()}`}</h5> */}
-                  </div>
-                );
-              })}
-              <div className="flex justify-around z-20 gap-x-4 justify-self-end font-kanit absolute bottom-6 lg:bottom-12 inset-x-8 md:inset-x-14 md:text-2xl">
-                <button
-                  onClick={() => setEditing(true)}
-                  className="rounded-xl w-full py-1 border-2 border-white"
-                >
-                  แก้ไขชื่อ
-                </button>
-                <button
-                  className="rounded-xl w-full py-1 border-2 border-white"
-                  onClick={() => router.push("/signout")}
-                >
-                  ออกจากระบบ
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+                <div className="flex justify-around z-20 gap-x-4 justify-self-end font-kanit bottom-6 lg:bottom-12 inset-x-8 md:inset-x-14 md:text-2xl">
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="rounded-xl w-full py-1 border-2 border-white"
+                  >
+                    แก้ไขชื่อ
+                  </button>
+                  <button
+                    className="rounded-xl w-full py-1 border-2 border-white"
+                    onClick={() => router.push("/signout")}
+                  >
+                    ออกจากระบบ
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       )}
     </>
   );
