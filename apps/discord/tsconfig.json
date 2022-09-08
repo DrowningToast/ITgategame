@@ -13,7 +13,8 @@
     "baseUrl": "src",
     "lib": ["ES2015"],
     "module": "ESNext",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "target": "ES2015"
   },
   "exclude": ["dist", "build", "**/node_modules", "node_modules", ".pnpm"]
 }
