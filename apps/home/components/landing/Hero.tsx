@@ -61,7 +61,7 @@ const Hero = () => {
                 delay: 0.5,
               },
             }}
-            className="flex flex-col gap-y-8 z-20"
+            className="flex flex-col gap-y-8 z-20 lg:min-h-screen lg:py-24"
           >
             <div className="flex flex-col justify-center md:items-start items-center mx-auto md:mx-0 px-2  z-20">
               <h1 className="yellow-gradient-text leading-[240px] inline-block align-middle font-extrabold text-8xl md:text-[240px] font-ranger pr-2 md:pr-4">
