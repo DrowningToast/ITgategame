@@ -20,5 +20,6 @@ plugins:
 
 custom:
   serverless-offline:
+    lambdaPort: 4002
     httpPort: 7071
     useChildProcesses: true

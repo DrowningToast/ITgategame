@@ -36,10 +36,7 @@ const Hero = () => {
     }
   };
   return (
-    <motion.section
-      layout
-      className="bg-dark w-screen md:px-20 pt-8 pb-20 md:py-8 lg:py-14 relative lg:max-h-screen lg:flex lg:flex-col lg:justify-around"
-    >
+    <motion.section className="bg-dark w-screen md:px-20 pt-8 pb-20 md:py-8 lg:py-14 relative lg:max-h-screen lg:flex lg:flex-col lg:justify-around">
       <AnimatePresence exitBeforeEnter>
         {!user ? (
           <motion.div

@@ -1,0 +1,25 @@
+org: drowningtoast
+app: itgg
+service: discord-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-1
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  serverless-offline:
+    lambdaPort: 3002
+    httpPort: 7072
+    useChildProcesses: true
