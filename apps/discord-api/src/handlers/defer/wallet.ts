@@ -7,18 +7,20 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
   try {
     const discordId = message.member?.user.id;
 
+    console.log(message);
+
     const response = await axiosBackendInstance.get<{
       balance: number;
       discordId: string;
     }>(`/discord/wallet/${discordId}`);
 
-    console.log(response.data);
+    console.log(response.status);
 
     await rest.patch(
       Routes.webhookMessage(process.env.APP_ID!, message.token),
       {
         body: {
-          content: `<@${discordId}> ตอนนี้เจ้าอยู่ tokens อยู่ ${
+          content: `<@${discordId}> ตอนนี้เจ้ามี tokens อยู่ ${
             response.data.balance ?? 0
           } ${
             response.data.discordId
@@ -29,11 +31,12 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
       }
     );
   } catch (e) {
+    console.log(e);
     await rest.patch(
       Routes.webhookMessage(process.env.APP_ID!, message.token),
       {
         body: {
-          content: `**ไม่นะ! บอทมันก่องก้อง บัครับประทาน ลองติดต่อ Staff ดูน้า** เหตุผล: ${e.response.data}`,
+          content: `**ไม่นะ! บอทมันก่องก้อง บัครับประทาน ลองติดต่อ Staff ดูน้า** เหตุผล: ${e?.response?.data}`,
         },
       }
     );

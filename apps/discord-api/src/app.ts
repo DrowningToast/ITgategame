@@ -1,29 +1,13 @@
 import {
   APIChatInputApplicationCommandInteraction,
-  Interaction,
-  InteractionResponse,
-  InteractionWebhook,
-  Message,
   REST,
   SlashCommandBuilder,
 } from "discord.js";
 import express, { Response } from "express";
 const app = express();
-import {
-  APIApplicationCommandInteraction,
-  APIInteraction,
-  APIInteractionResponse,
-  APIWebhook,
-  RESTGetAPIWebhookResult,
-  Routes,
-} from "discord-api-types/v9";
+import { APIInteractionResponse, Routes } from "discord-api-types/v9";
 import dotenv from "dotenv";
-import {
-  InteractionResponseType,
-  InteractionType,
-  verifyKeyMiddleware,
-} from "discord-interactions";
-import { body } from "./api/type";
+import { verifyKeyMiddleware } from "discord-interactions";
 import { SetHeaderToken } from "./api/helper";
 import { axiosBackendInstance, axiosDiscordInstance } from "./api/instance";
 import PingCommand from "./handlers/ping";
@@ -161,13 +145,17 @@ app.post<
     // const guildId = message.guild_id;
     // const username = message.member!.user.username;
 
+    console.log(message);
+
     if (message.type === 2 && message.member) {
       switch (commandName) {
         case "grant": {
           await DeferGrantCommand(message, rest);
+          break;
         }
         case "wallet": {
           await DeferWalletCommand(message, rest);
+          break;
         }
       }
     }

@@ -40,7 +40,10 @@ discordRouter.get("/wallet/:discordId", async (req, res) => {
 
     const discord = await DiscordUser.findOne({
       discordId: req.params.discordId,
-    }).select("balance discordId");
+    }).select("balance");
+
+    // console.log(user);
+    // console.log(discord);
 
     return res.status(200).send(discord ?? user);
   } catch (e) {

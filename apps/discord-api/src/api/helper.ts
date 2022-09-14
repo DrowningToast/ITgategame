@@ -13,22 +13,13 @@ import https from "https";
 import http from "http";
 import URL from "url";
 
-var options = {
-  hostname: "www.postcatcher.in",
-  port: 80,
-  path: "/catchers/5531b7faacde130300002495",
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
-
 export async function onewayRequest(url: string, data, method = "GET") {
   return new Promise((resolve, reject) => {
     try {
       let dataEncoded = JSON.stringify(data);
       let req: http.ClientRequest;
-      if (url.slice(0, 6) === "https") {
+      if (process.env.Prod_Endpoint) {
+        console.log("HTTPSING");
         req = https.request({
           ...URL.parse(url),
           method,

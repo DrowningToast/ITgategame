@@ -6,10 +6,7 @@ dotenv.config({});
  * @description Axios Instance for communicating with aws function backend
  */
 export const axiosBackendInstance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? process.env.Dev_Backend_URL
-      : process.env.Prod_Backend_URL,
+  baseURL: process.env.Prod_Backend_URL ?? process.env.Dev_Backend_URL,
 });
 
 export const axiosDiscordInstance = axios.create({

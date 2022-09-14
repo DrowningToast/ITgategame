@@ -35,7 +35,7 @@ const updateAndResponse: DeferCommandHandler = async (message, rest) => {
     Routes.webhookMessage(process.env.APP_ID!, message.token),
     {
       body: {
-        content: `Succesfully granted <@${targetParam.value}>  ${amountParam.value} token(s)`,
+        content: `เรียบร้อย! ให้คะแนน <@${targetParam.value}> ทั้งหมด ${amountParam.value} token(s) เรียบร้อยแว้ว >.>`,
       },
     }
   );
