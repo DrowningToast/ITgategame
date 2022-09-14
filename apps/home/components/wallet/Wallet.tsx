@@ -151,7 +151,7 @@ const Wallet = () => {
               duration: 2,
             },
           }}
-          className="flex flex-col lg:grid lg:grid-cols-2 md:gap-y-4 lg:gap-x-6 items-center lg:max-h-full overflow-hidden px-12 gap-y-2"
+          className="flex flex-col lg:grid lg:grid-cols-2 md:gap-y-4 lg:gap-x-6 items-center lg:max-h-full overflow-visible px-12 gap-y-2"
         >
           <h1 className="lg:col-start-1 lg:row-start-1 text-white font-bebas text-2xl md:text-3xl tracking-wider z-20">
             {profile?.activated
@@ -287,7 +287,19 @@ const Wallet = () => {
                 }}
                 className="lg:col-start-2 lg:row-start-2 w-full h-full mt-4 flex flex-col gap-y-2 md:px-6"
               >
-                <div className="flex justify-around z-20 gap-x-4 justify-self-end font-kanit bottom-6 lg:bottom-12 inset-x-8 md:inset-x-14 md:text-2xl">
+                <span
+                  className={`font-kanit w-full inline-block text-green-500 mb-4 text-center`}
+                >
+                  {profile.discordId
+                    ? "Discord account is linked"
+                    : "Discord account is not yet linked. . ."}{" "}
+                  {profile.discordId && (
+                    <a href="/unlink" className="text-red-500 cursor-pointer">
+                      (unlink)
+                    </a>
+                  )}
+                </span>
+                <div className="flex justify-around items-end h-full z-20 gap-x-4 justify-self-end font-kanit bottom-6 lg:bottom-12 inset-x-8 md:inset-x-14 md:text-2xl">
                   <button
                     onClick={() => setEditing(true)}
                     className="rounded-xl w-full py-1 border-2 border-white"
