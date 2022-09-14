@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "serverless offline",
-    "build": "serverless deploy"
+    "deploy": "serverless deploy"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",

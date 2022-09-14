@@ -26,7 +26,7 @@
   },
   "scripts": {
     "dev": "serverless offline",
-    "build": "serverless deploy"
+    "deploy": "npx init serverless deploy"
   },
   "devDependencies": {
     "serverless-plugin-typescript": "^2.1.2",
