@@ -2,9 +2,6 @@ import axios, { AxiosInstance } from "axios";
 import dotenv from "dotenv";
 dotenv.config({});
 
-if (!process.env.Dev_Backend_URL)
-  throw new Error("Missing Dev Backend endpoint");
-
 /**
  * @description Axios Instance for communicating with aws function backend
  */
