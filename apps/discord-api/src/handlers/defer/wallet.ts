@@ -14,7 +14,7 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
       discordId: string;
     }>(`/discord/wallet/${discordId}`);
 
-    console.log(response.status);
+    console.log(response.data);
 
     await rest.patch(
       Routes.webhookMessage(process.env.APP_ID!, message.token),

@@ -16,6 +16,8 @@ import GrantCommand from "./handlers/grant";
 import DeferGrantCommand from "./handlers/defer/grant";
 import WalletCommand from "./handlers/wallet";
 import DeferWalletCommand from "./handlers/defer/wallet";
+import GiveCommand from "./handlers/give";
+import DeferGiveCommand from "./handlers/defer/give";
 
 dotenv.config({});
 
@@ -49,7 +51,16 @@ const commands = [
     ),
   new SlashCommandBuilder()
     .setName("give")
-    .setDescription("ให้ token เพื่อน ๆ ตามกำลังทรัพย์ขอบตน. . . หรือขโมย?"),
+    .setDescription("ให้ token เพื่อน ๆ ตามกำลังทรัพย์ขอบตน. . . หรือขโมย?")
+    .addUserOption((option) =>
+      option
+        .setName("target")
+        .setDescription("ผู้ซึ่งรับทรัพย์หรือเหยื่อ")
+        .setRequired(true)
+    )
+    .addIntegerOption((option) =>
+      option.setName("amount").setDescription("จำนวน token").setRequired(true)
+    ),
   new SlashCommandBuilder()
     .setName("wallet")
     .setDescription("เช็คจำนวน token ที่ตัวเองมีอยู่"),
@@ -118,6 +129,9 @@ app.post("/command", async (req, res, next) => {
         case "wallet": {
           return await WalletCommand(message, reply);
         }
+        case "give": {
+          return await GiveCommand(message, reply);
+        }
       }
     }
     return res.sendStatus(200);
@@ -155,6 +169,10 @@ app.post<
         }
         case "wallet": {
           await DeferWalletCommand(message, rest);
+          break;
+        }
+        case "give": {
+          await DeferGiveCommand(message, rest);
           break;
         }
       }

@@ -301,69 +301,75 @@ discordRouter.post<
   {},
   {},
   {
-    discordId: string;
-    targetDiscordId: string;
-    amount: number;
+    jwt: string;
   }
 >("/give", async (req, res) => {
   try {
+    const { discordId, targetDiscordId, amount } = (await ValidateJWT(
+      req.body.jwt
+    )) as {
+      discordId: string;
+      targetDiscordId: string;
+      amount: number;
+    };
+
     // Check if the firebase account exists or not
     const requesterFirebase = await User.findOne({
-      discordId: req.body.discordId,
+      discordId: discordId,
     });
     const requesterTemp = await DiscordUser.findOne({
-      discordId: req.body.discordId,
+      discordId: discordId,
     });
-    if (!requesterFirebase || !requesterTemp)
+    if (!requesterFirebase && !requesterTemp)
       return res.status(404).send("Invalid giver source");
 
-    let requester = { ...requesterFirebase, ...requesterTemp };
+    let requester = requesterFirebase ?? requesterTemp;
     // Check the balance for the giver, giving case
-    if (req.body.amount > 0 && req.body.amount > requester.balance)
-      return res.status(400).send("Insufficient account balance");
+    if (amount > 0 && amount > (requester?.balance ?? 0))
+      return res.status(400).send({
+        message: "Insufficient requester balance",
+        requesterValue: requester?.balance ?? 0,
+      });
 
     // Validating target account
     const targetFirebase = await User.findOne({
-      discordId: req.body.targetDiscordId,
+      discordId: targetDiscordId,
     });
     const targetTemp = await DiscordUser.findOne({
-      discordId: req.body.discordId,
+      discordId: discordId,
     });
-    let target = {
-      ...targetFirebase,
-      ...targetTemp,
-    };
+    let target = targetFirebase ?? targetTemp;
     // Check the balance for the target, stealing case
-    if (
-      req.body.amount < 0 &&
-      Math.abs(req.body.amount) > (target?.balance ?? 0)
-    )
-      return res.status(400).send("Insufficient balance");
+    if (amount < 0 && Math.abs(amount) > (target?.balance ?? 0))
+      return res.status(400).send({
+        message: "Insufficient target balance",
+        targetValue: target?.balance ?? 0,
+      });
 
     let successful: boolean = false;
 
     // Logics
-    if (req.body.amount > 0) {
+    if (amount > 0) {
       // Deduct the tokens from the requester
       if (requesterFirebase) {
         await User.findOneAndUpdate(
           {
-            discordId: req.body.discordId,
+            discordId: discordId,
           },
           {
             $inc: {
-              balance: req.body.amount * -1,
+              balance: amount * -1,
             },
           }
         );
       } else if (requesterTemp) {
         await DiscordUser.findOneAndUpdate(
           {
-            discordId: req.body.discordId,
+            discordId: discordId,
           },
           {
             $inc: {
-              balance: req.body.amount * -1,
+              balance: amount * -1,
             },
           }
         );
@@ -374,57 +380,56 @@ discordRouter.post<
       if (targetFirebase) {
         await DiscordUser.findOneAndUpdate(
           {
-            discordId: req.body.targetDiscordId,
+            discordId: targetDiscordId,
           },
           {
             $inc: {
-              balance: req.body.amount,
+              balance: amount,
             },
           }
         );
       } else if (targetTemp) {
         await DiscordUser.findOneAndUpdate(
           {
-            discordId: req.body.discordId,
+            discordId: discordId,
           },
           {
             $inc: {
-              balance: req.body.amount,
+              balance: amount,
             },
           }
         );
       } else {
         return res.status(404).send("Target not found");
       }
-    } else if (req.body.amount < 0) {
+    } else if (amount < 0) {
       // Determine if successful or not
       // 20% - 50%, the more the user steal, the lower the chance is
       // The percent stop deceasing after 500 tokens
       // The value must be higher than the Threshold to steal succesfully
-      const successfulThreshold =
-        0.5 + 0.3 * Math.min(req.body.amount / 500, 1);
+      const successfulThreshold = 0.5 + 0.3 * Math.min(amount / 500, 1);
       successful = Math.random() > successfulThreshold;
       if (successful) {
         // Success
         if (requesterFirebase) {
           await User.findOneAndUpdate(
             {
-              discordId: req.body.discordId,
+              discordId: discordId,
             },
             {
               $inc: {
-                balance: req.body.amount * -1,
+                balance: amount * -1,
               },
             }
           );
         } else if (requesterTemp) {
           await DiscordUser.findOneAndUpdate(
             {
-              discordId: req.body.discordId,
+              discordId: discordId,
             },
             {
               $inc: {
-                balance: req.body.amount * -1,
+                balance: amount * -1,
               },
             }
           );
@@ -435,22 +440,22 @@ discordRouter.post<
         if (targetFirebase) {
           await DiscordUser.findOneAndUpdate(
             {
-              discordId: req.body.targetDiscordId,
+              discordId: targetDiscordId,
             },
             {
               $inc: {
-                balance: req.body.amount,
+                balance: amount,
               },
             }
           );
         } else if (targetTemp) {
           await DiscordUser.findOneAndUpdate(
             {
-              discordId: req.body.discordId,
+              discordId: discordId,
             },
             {
               $inc: {
-                balance: req.body.amount,
+                balance: amount,
               },
             }
           );
@@ -462,22 +467,22 @@ discordRouter.post<
         if (requesterFirebase) {
           await User.findOneAndUpdate(
             {
-              discordId: req.body.discordId,
+              discordId: discordId,
             },
             {
               $inc: {
-                balance: req.body.amount,
+                balance: amount,
               },
             }
           );
         } else if (requesterTemp) {
           await DiscordUser.findOneAndUpdate(
             {
-              discordId: req.body.discordId,
+              discordId: discordId,
             },
             {
               $inc: {
-                balance: req.body.amount,
+                balance: amount,
               },
             }
           );
