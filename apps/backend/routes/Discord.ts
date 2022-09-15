@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import ValidateJWT from "../helper/validateJWT";
 import validateRole from "../helper/validateRole";
@@ -350,9 +350,12 @@ discordRouter.post<
 
     // Logics
     if (amount > 0) {
+      console.log("Giving");
       // Deduct the tokens from the requester
       if (requesterFirebase) {
-        await User.findOneAndUpdate(
+        console.log("Requester Firebase Found");
+
+        const x = await User.findOneAndUpdate(
           {
             discordId: discordId,
           },
@@ -362,7 +365,10 @@ discordRouter.post<
             },
           }
         );
+        console.log(x);
       } else if (requesterTemp) {
+        console.log("Requester Temp Found");
+
         await DiscordUser.findOneAndUpdate(
           {
             discordId: discordId,
@@ -378,7 +384,9 @@ discordRouter.post<
       }
       // Grant the target tokens
       if (targetFirebase) {
-        await DiscordUser.findOneAndUpdate(
+        console.log("Target Firebase Found");
+
+        const response = await User.findOneAndUpdate(
           {
             discordId: targetDiscordId,
           },
@@ -388,7 +396,10 @@ discordRouter.post<
             },
           }
         );
+        console.log(response);
       } else if (targetTemp) {
+        console.log("Target Temp Found");
+
         await DiscordUser.findOneAndUpdate(
           {
             discordId: discordId,
@@ -400,6 +411,8 @@ discordRouter.post<
           }
         );
       } else {
+        console.log("Target not found");
+
         return res.status(404).send("Target not found");
       }
     } else if (amount < 0) {
@@ -413,6 +426,7 @@ discordRouter.post<
       if (successful) {
         // Success
         if (requesterFirebase) {
+          // Give the requester token because stealing
           await User.findOneAndUpdate(
             {
               discordId: discordId,
@@ -439,7 +453,7 @@ discordRouter.post<
         }
         // Grant the target tokens
         if (targetFirebase) {
-          await DiscordUser.findOneAndUpdate(
+          await User.findOneAndUpdate(
             {
               discordId: targetDiscordId,
             },
@@ -461,6 +475,7 @@ discordRouter.post<
             }
           );
         } else {
+          console.log("target not found");
           return res.status(404).send("Target not found");
         }
       } else {
