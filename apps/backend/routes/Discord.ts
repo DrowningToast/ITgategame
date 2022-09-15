@@ -408,7 +408,7 @@ discordRouter.post<
       // The percent stop deceasing after 1500 tokens
       // The value must be higher than the Threshold to steal succesfully
       const successfulThreshold =
-        0.4 + 0.45 * Math.min((amount * -1) / 1500, 1);
+        0.6 + 0.35 * Math.min((amount * -1) / 1500, 1);
       successful = Math.random() > successfulThreshold;
       if (successful) {
         // Success
