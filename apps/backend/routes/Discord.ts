@@ -404,10 +404,11 @@ discordRouter.post<
       }
     } else if (amount < 0) {
       // Determine if successful or not
-      // 20% - 50%, the more the user steal, the lower the chance is
-      // The percent stop deceasing after 500 tokens
+      // 5% - 40%, the more the user steal, the lower the chance is
+      // The percent stop deceasing after 1500 tokens
       // The value must be higher than the Threshold to steal succesfully
-      const successfulThreshold = 0.5 + 0.3 * Math.min(amount / 500, 1);
+      const successfulThreshold =
+        0.5 + 0.45 * Math.min((amount * -1) / 1500, 1);
       successful = Math.random() > successfulThreshold;
       if (successful) {
         // Success
