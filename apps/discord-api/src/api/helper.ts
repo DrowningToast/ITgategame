@@ -20,6 +20,7 @@ import {
 } from "discord.js";
 import { axiosBackendInstance } from "./instance";
 import EncodeObject from "../cred/encode";
+import { APIGuildMember } from "discord-api-types/v9";
 
 export async function onewayRequest(url: string, data, method = "GET") {
   return new Promise((resolve, reject) => {
@@ -67,16 +68,28 @@ export const createTempAccount = async (
 ) => {
   let gate: "AND" | "OR" | "NOR" | "NOT" | null = null;
 
+  const target = (await rest.get(
+    Routes.guildMember(process.env.GUILD_ID!, discordId)
+  )) as APIGuildMember;
+
   // Check which gate are they on
-  if (message.member?.roles.includes("1011597325036167268")) {
+  if (target?.roles.includes("1011597325036167268")) {
+    // 1011597325036167268
     gate = "AND";
-  } else if (message.member?.roles.includes("1011597458805096492")) {
+  } else if (target?.roles.includes("1011597458805096492")) {
+    // 1011597458805096492
     gate = "OR";
-  } else if (message.member?.roles.includes("1011597601088471100")) {
+  } else if (target?.roles.includes("1011597601088471100")) {
+    // 1011597601088471100
     gate = "NOR";
-  } else if (message.member?.roles.includes("1011597674249715833")) {
+  } else if (target?.roles.includes("1011597674249715833")) {
+    // 1011597674249715833
     gate = "NOT";
   }
+
+  console.log(target?.nick);
+  console.log(target?.roles);
+  console.log(gate);
 
   if (!gate) {
     await rest.patch(

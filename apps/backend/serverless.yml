@@ -5,14 +5,55 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs16.x
   region: ap-southeast-1
+  iam:
+    role:
+      statements: # permissions for all of your functions can be set here
+        - Effect: Allow
+          Action: # Gives permission to DynamoDB tables
+            - logs:*
+            - dynamodb:*
+            - states:*
+            - events:*
+          Resource:
+            - "*"
+            - "arn:aws:dynamodb:*:*:*"
 
 functions:
   api:
     handler: handler.handler
     events:
       - httpApi: "*"
+  OnConnectHandler:
+    handler: handler.onConnect
+    events:
+      - websocket:
+          route: $connect
+  OnDisconnect:
+    handler: handler.onDisconnect
+    events:
+      - websocket:
+          route: $disconnect
+  OnBroadcast:
+    handler: handler.onBroadcast
+    events:
+      - websocket:
+          route: $broadcast
+
+resources:
+  Resources:
+    WebSocketTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: itgg-ws-connections
+        AttributeDefinitions:
+          - AttributeName: connectionId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: connectionId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
 
 plugins:
   - serverless-offline

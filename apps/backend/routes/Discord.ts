@@ -2,6 +2,7 @@ import express, { response } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import ValidateJWT from "../helper/validateJWT";
 import validateRole from "../helper/validateRole";
+import Bounty from "../models/Bounty";
 import DiscordUser from "../models/DiscordUser";
 import User from "../models/User";
 
@@ -60,7 +61,7 @@ discordRouter.get("/wallet/:discordId", async (req, res) => {
     // console.log(discord);
 
     if (!user && !discord) {
-      return res.sendStatus(404);
+      return res.status(404).send("Target is not found");
     }
 
     return res.status(200).send(discord ?? user);
@@ -530,6 +531,126 @@ discordRouter.post<
     });
   } catch (e) {
     return res.status(500).send(e);
+  }
+});
+
+discordRouter.get("/bounty/:channelId", async (req, res) => {
+  try {
+    const channelId = (await ValidateJWT(req.params.channelId)) as string;
+
+    const bounty = await Bounty.findOne({
+      channelId,
+      onGoing: true,
+    });
+
+    if (!bounty) return res.status(404).send("There is no going bounty");
+
+    return res.status(200).send(bounty);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send(e);
+  }
+});
+
+discordRouter.post<
+  "/bounty",
+  {},
+  {},
+  {
+    jwt: string;
+  }
+>("/bounty", async (req, res) => {
+  try {
+    const { messageId, creatorId, channelId, tokens, limit } =
+      (await ValidateJWT(req.body.jwt)) as {
+        creatorId: string;
+        channelId: string;
+        tokens: number;
+        limit: number;
+        messageId: string;
+      };
+
+    console.log(await ValidateJWT(req.body.jwt));
+    console.log(creatorId);
+
+    // Verify role
+    const requester = await User.findOne({
+      discordId: creatorId,
+    });
+
+    console.log(requester);
+
+    if (requester?.role !== "Agency")
+      return res.status(401).send("Insufficient permission");
+
+    const bounty = new Bounty({
+      owner: creatorId,
+      price: tokens ?? 0,
+      joined: 0,
+      channelId,
+      messageId,
+      onGoing: true,
+      limit: limit ?? null,
+    });
+
+    await bounty.save();
+
+    return res.send(bounty);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+});
+
+discordRouter.patch("/bounty/end", async (req, res) => {
+  try {
+    const { creatorId, channelId, targetId } = (await ValidateJWT(
+      req.body.jwt
+    )) as {
+      creatorId: string;
+      channelId: string;
+      targetId: string[];
+    };
+
+    // Verify role
+    const requester = await User.findOne({
+      discordId: creatorId,
+    });
+    if (requester?.role !== "Agency")
+      return res.status(401).send("Insufficient permission");
+
+    const instance = await Bounty.findOneAndUpdate(
+      {
+        channelId,
+        onGoing: true,
+      },
+      {
+        onGoing: false,
+      }
+    );
+
+    // Check is the instance valid
+    if (!instance) {
+      return res.status(404).send("Instance not found in the channel");
+    }
+
+    const users = await User.updateMany(
+      {
+        discordId: {
+          $in: targetId,
+        },
+      },
+      {
+        $inc: {
+          balance: instance.price,
+        },
+      }
+    );
+
+    res.status(200).send({ users, instance });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
   }
 });
 

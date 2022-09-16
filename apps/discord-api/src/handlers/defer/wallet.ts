@@ -37,9 +37,8 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
       }
     );
   } catch (e) {
-    console.log(e);
-
-    if (e.status === 404) {
+    console.log(e.response.status);
+    if (e.response.status === 404) {
       try {
         await createTempAccount(message, rest, discordId!);
         await rest.patch(
@@ -52,6 +51,7 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
             },
           }
         );
+        return;
       } catch (e) {
         await rest.patch(
           Routes.webhookMessage(process.env.APP_ID!, message.token),
@@ -61,6 +61,7 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
             },
           }
         );
+        return;
       }
     }
 
@@ -72,6 +73,7 @@ const DeferWalletCommand: DeferCommandHandler = async (message, rest) => {
         },
       }
     );
+    return;
   }
 };
 

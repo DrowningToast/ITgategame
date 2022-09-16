@@ -2,11 +2,13 @@ import { SlashCommandBuilder } from "discord.js";
 
 export const playHighLowCommand = new SlashCommandBuilder()
   .setName("hl-bet")
-  .setDescription("วางเงินว่าจะพนันสูงหรือต่ำตามราคาของเกมที่ได้เปิด")
+  .setDescription(
+    "วางเงินว่าจะพนันสูง, กลาง(8x) หรือต่ำตามราคาของเกมที่ได้เปิด"
+  )
   .addStringOption((option) =>
     option
       .setName("choice")
-      .setDescription("เลือก High (สูง) หรือ Low (ต่ำ)")
+      .setDescription("เลือก High (สูง) Center (กลาง) หรือ Low (ต่ำ)")
       .setRequired(true)
       .addChoices(
         {

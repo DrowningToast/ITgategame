@@ -1,5 +1,5 @@
 import { Routes } from "discord.js";
-import { createTempAccount } from "../../api/helper";
+import { createTempAccount, onewayRequest } from "../../api/helper";
 import { axiosBackendInstance } from "../../api/instance";
 import EncodeObject from "../../cred/encode";
 import { DeferCommandHandler } from "../handler";
@@ -57,7 +57,14 @@ const DeferGrantCommand: DeferCommandHandler = async (message, rest) => {
     if (e.response.status === 404) {
       // Call create temp function
       await createTempAccount(message, rest, targetParam.value);
-      await updateAndResponse(message, rest);
+      const res = await onewayRequest(
+        `${process.env.Prod_Endpoint ?? process.env.Dev_Endpoint}/defer`,
+        {
+          message,
+        },
+        "POST"
+      );
+      return;
     }
     await rest.patch(
       Routes.webhookMessage(process.env.APP_ID!, message.token),

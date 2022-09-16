@@ -43,6 +43,15 @@ import {
 } from "./handlers/defer/highlow";
 import executeTokenCommand from "./handlers/executeToken";
 import DeferExecuteTokenCommand from "./handlers/defer/executeToken";
+import {
+  endBountyCommand,
+  startBountyCommand,
+} from "./handlers/commands/bounty";
+import { EndBountyCommand, StartBountyCommand } from "./handlers/bounty";
+import {
+  DeferEndBountyCommand,
+  DeferStartBountyCommand,
+} from "./handlers/defer/bounty";
 
 dotenv.config({});
 
@@ -71,6 +80,9 @@ const commands = [
   new SlashCommandBuilder()
     .setName("executetoken")
     .setDescription("Give tokens to members with token roles"),
+  // Bounty
+  startBountyCommand,
+  endBountyCommand,
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "9" }).setToken(process.env.BOT_TOKEN);
@@ -154,6 +166,12 @@ app.post("/command", async (req, res, next) => {
         case "executetoken": {
           return await executeTokenCommand(message, reply);
         }
+        case "bt-start": {
+          return await StartBountyCommand(message, reply);
+        }
+        case "bt-end": {
+          return await EndBountyCommand(message, reply);
+        }
       }
     }
     return res.sendStatus(200);
@@ -211,6 +229,14 @@ app.post<
         }
         case "executetoken": {
           await DeferExecuteTokenCommand(message, rest);
+          break;
+        }
+        case "bt-start": {
+          await DeferStartBountyCommand(message, rest);
+          break;
+        }
+        case "bt-end": {
+          await DeferEndBountyCommand(message, rest);
           break;
         }
       }
