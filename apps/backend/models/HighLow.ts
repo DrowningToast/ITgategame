@@ -37,6 +37,13 @@ const HighLowSchema = new mongoose.Schema({
       default: [],
     },
   ],
+  // discord
+  center: [
+    {
+      type: String,
+      default: [],
+    },
+  ],
 });
 
 const HighLow = mongoose.model("HighLow", HighLowSchema);

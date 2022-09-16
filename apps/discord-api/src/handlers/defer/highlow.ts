@@ -76,6 +76,10 @@ export const DeferJoinHighLowInstanceCommand: DeferCommandHandler = async (
       | {
           name: "choice";
           value: "LOW";
+        }
+      | {
+          name: "choice";
+          value: "CENTER";
         };
 
     console.log(choice);

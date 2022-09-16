@@ -1,6 +1,5 @@
 import { APIGuildMember, Routes } from "discord.js";
 import { DeferCommandHandler } from "../handler";
-
 import dotenv from "dotenv";
 import { getTokenFromRole } from "../../misc/roles";
 import { axiosBackendInstance } from "../../api/instance";

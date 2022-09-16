@@ -16,6 +16,10 @@ export const playHighLowCommand = new SlashCommandBuilder()
         {
           name: "Low",
           value: "LOW",
+        },
+        {
+          name: "Center",
+          value: "CENTER",
         }
       )
   );
@@ -46,6 +50,10 @@ export const endHighLowCommand = new SlashCommandBuilder()
         {
           name: "Low",
           value: "LOW",
+        },
+        {
+          name: "Center",
+          value: "CENTER",
         }
       )
   );

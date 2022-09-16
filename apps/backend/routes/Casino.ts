@@ -90,7 +90,7 @@ casinoRouter.patch<
     return res.status(400).send("Already joined");
 
   //@ts-ignore
-  if (side !== "HIGH" && side !== "LOW") {
+  if (side !== "HIGH" && side !== "LOW" && side !== "CENTER") {
     return res.status(400).send("Invalid bet side");
   }
 
@@ -161,7 +161,23 @@ casinoRouter.patch<
       },
       {
         $push: {
-          high: requesterId,
+          low: requesterId,
+        },
+        $inc: {
+          joined: 1,
+        },
+      }
+    );
+    if (!response) return res.status(404).send("There is no ongoing game");
+    return res.status(200).send(response);
+  } else if (side === "CENTER") {
+    const response = await HighLow.findOneAndUpdate(
+      {
+        onGoing: true,
+      },
+      {
+        $push: {
+          center: requesterId,
         },
         $inc: {
           joined: 1,
@@ -184,7 +200,7 @@ casinoRouter.patch<
   try {
     const { creatorId, side } = (await ValidateJWT(req.body.jwt)) as {
       creatorId: string;
-      side: "HIGH" | "LOW";
+      side: "HIGH" | "LOW" | "CENTER";
     };
 
     // Verify role
@@ -205,8 +221,18 @@ casinoRouter.patch<
 
     if (!instance) return res.status(400).send("There is no ongoing game!");
 
-    const winners = side === "HIGH" ? instance?.high : instance?.low;
-    const losers = side === "HIGH" ? instance?.low : instance?.high;
+    const winners =
+      side === "HIGH"
+        ? instance?.high
+        : side === "CENTER"
+        ? instance.center
+        : instance?.low;
+    const losers =
+      side === "HIGH"
+        ? instance?.low
+        : side === "CENTER"
+        ? [...instance?.high, ...instance?.low]
+        : [...instance?.high, ...instance?.center];
 
     // Update winners
     const results = await User.updateMany(
@@ -217,7 +243,7 @@ casinoRouter.patch<
       },
       {
         $inc: {
-          balance: instance.price * 2,
+          balance: instance.price * (side === "CENTER" ? 9 : 2),
         },
       }
     );
