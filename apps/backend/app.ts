@@ -8,6 +8,7 @@ import useMongoose from "./middlewares/connectMongoose";
 import Gate from "./models/Gate";
 import transactionRouter from "./routes/Transactions";
 import discordRouter from "./routes/Discord";
+import casinoRouter from "./routes/Casino";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/users", userRouter);
 app.use("/point", pointRouter);
 app.use("/transactions", transactionRouter);
 app.use("/discord", discordRouter);
+app.use("/casino", casinoRouter);
 
 app.get("/", (req, res, next) => {
   try {

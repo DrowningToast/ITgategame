@@ -12,4 +12,4 @@ export type CommandHandler = (
 export type DeferCommandHandler = (
   message: APIChatInputApplicationCommandInteraction,
   rest: REST
-) => Promise<void>;
+) => Promise<any>;

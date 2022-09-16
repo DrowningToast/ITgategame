@@ -1,19 +1,20 @@
 import mongoose, { Schema } from "mongoose";
 
-const LotterySchema = new mongoose.Schema({
+const LotteryTicketSchema = new mongoose.Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  number: {
+  price: {
     type: String,
     required: true,
   },
-  purchaseDate: {
-    type: Date,
-    default: Date.now(),
+  joined: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 
-const Lottery = mongoose.model("Lottery", LotterySchema);
+const Lottery = mongoose.model("LotteryTicket", LotteryTicketSchema);
 export default Lottery;

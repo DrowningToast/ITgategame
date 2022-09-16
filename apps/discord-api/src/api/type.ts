@@ -48,3 +48,18 @@ export interface body {
   type: number;
   version: number;
 }
+
+export interface iUser {
+  email: string;
+  balance: number;
+  uid: string;
+  gate: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  id: string;
+  year: number;
+  activated: boolean;
+  role: "Player" | "Admin" | "Agency";
+  discordId: string;
+}

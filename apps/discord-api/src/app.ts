@@ -18,6 +18,31 @@ import WalletCommand from "./handlers/wallet";
 import DeferWalletCommand from "./handlers/defer/wallet";
 import GiveCommand from "./handlers/give";
 import DeferGiveCommand from "./handlers/defer/give";
+import TopCommand from "./handlers/top";
+import DeferTopCommand from "./handlers/defer/top";
+import {
+  createHighLowCommand,
+  endHighLowCommand,
+  playHighLowCommand,
+} from "./handlers/commands/highlow";
+import {
+  giveCommand,
+  grantCommand,
+  topCommand,
+  walletCommand,
+} from "./handlers/commands/balance";
+import {
+  CreateHighLowInstanceCommand,
+  EndHighLowInstanceCommand,
+  JoinHighLowInstanceCommand,
+} from "./handlers/highlow";
+import {
+  DeferCreateHighLowInstanceCommand,
+  DeferEndHighLowInstanceCommand,
+  DeferJoinHighLowInstanceCommand,
+} from "./handlers/defer/highlow";
+import executeTokenCommand from "./handlers/executeToken";
+import DeferExecuteTokenCommand from "./handlers/defer/executeToken";
 
 dotenv.config({});
 
@@ -34,36 +59,18 @@ const commands = [
   new SlashCommandBuilder()
     .setName("link")
     .setDescription("Link to the web account"),
+  // Balance
+  walletCommand,
+  giveCommand,
+  topCommand,
+  grantCommand,
+  // HIGHLOW
+  createHighLowCommand,
+  playHighLowCommand,
+  endHighLowCommand,
   new SlashCommandBuilder()
-    .setName("grant")
-    .setDescription("Grant user tokens, for AGC/CMT only")
-    .addUserOption((option) =>
-      option
-        .setName("target")
-        .setDescription("Target to grant/deduct tokens from")
-        .setRequired(true)
-    )
-    .addIntegerOption((option) =>
-      option
-        .setName("amount")
-        .setDescription("The amount of token(s) giving to the target")
-        .setRequired(true)
-    ),
-  new SlashCommandBuilder()
-    .setName("give")
-    .setDescription("ให้ token เพื่อน ๆ ตามกำลังทรัพย์ขอบตน. . . หรือขโมย?")
-    .addUserOption((option) =>
-      option
-        .setName("target")
-        .setDescription("ผู้ซึ่งรับทรัพย์หรือเหยื่อ")
-        .setRequired(true)
-    )
-    .addIntegerOption((option) =>
-      option.setName("amount").setDescription("จำนวน token").setRequired(true)
-    ),
-  new SlashCommandBuilder()
-    .setName("wallet")
-    .setDescription("เช็คจำนวน token ที่ตัวเองมีอยู่"),
+    .setName("executetoken")
+    .setDescription("Give tokens to members with token roles"),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "9" }).setToken(process.env.BOT_TOKEN);
@@ -132,6 +139,21 @@ app.post("/command", async (req, res, next) => {
         case "give": {
           return await GiveCommand(message, reply);
         }
+        case "top": {
+          return await TopCommand(message, reply);
+        }
+        case "hl-start": {
+          return await CreateHighLowInstanceCommand(message, reply);
+        }
+        case "hl-bet": {
+          return await JoinHighLowInstanceCommand(message, reply);
+        }
+        case "hl-end": {
+          return await EndHighLowInstanceCommand(message, reply);
+        }
+        case "executetoken": {
+          return await executeTokenCommand(message, reply);
+        }
       }
     }
     return res.sendStatus(200);
@@ -155,10 +177,6 @@ app.post<
     const message: APIChatInputApplicationCommandInteraction = req.body.message;
     const commandName = message?.data?.name ?? undefined;
 
-    // const channelId = message.channel_id;
-    // const guildId = message.guild_id;
-    // const username = message.member!.user.username;
-
     console.log(message);
 
     if (message.type === 2 && message.member) {
@@ -173,6 +191,26 @@ app.post<
         }
         case "give": {
           await DeferGiveCommand(message, rest);
+          break;
+        }
+        case "top": {
+          await DeferTopCommand(message, rest);
+          break;
+        }
+        case "hl-start": {
+          await DeferCreateHighLowInstanceCommand(message, rest);
+          break;
+        }
+        case "hl-bet": {
+          await DeferJoinHighLowInstanceCommand(message, rest);
+          break;
+        }
+        case "hl-end": {
+          await DeferEndHighLowInstanceCommand(message, rest);
+          break;
+        }
+        case "executetoken": {
+          await DeferExecuteTokenCommand(message, rest);
           break;
         }
       }

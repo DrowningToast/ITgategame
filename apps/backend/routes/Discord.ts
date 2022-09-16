@@ -8,6 +8,20 @@ import User from "../models/User";
 const discordRouter = express.Router();
 
 /**
+ * From: discord/web
+ * @description Return top 5 users
+ */
+discordRouter.get("/top", async (req, res) => {
+  try {
+    const users = await User.find().sort({ balance: -1 }).limit(5);
+
+    res.send(users);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+/**
  * From: discord
  * @description Check if is the user already linked
  */
@@ -44,6 +58,10 @@ discordRouter.get("/wallet/:discordId", async (req, res) => {
 
     // console.log(user);
     // console.log(discord);
+
+    if (!user && !discord) {
+      return res.sendStatus(404);
+    }
 
     return res.status(200).send(discord ?? user);
   } catch (e) {

@@ -6,17 +6,11 @@ export interface validateRoleError extends Error {
   code?: number;
 }
 
-/**
- *
- * @param {Promise<DecodedIdToken>} user
- * @param {[ "Player" | "Admin" | "Agency"]} requiredRole
- * @returns
- */
 const validateRole = async (
   user: DecodedIdToken | undefined,
   requiredRoles?: string[],
   bypassDatabaseSearch: boolean = false
-): Promise<(DecodedIdToken & iUser) | DecodedIdToken> => {
+): Promise<(DecodedIdToken & iUser) | DecodedIdToken | iUser> => {
   return new Promise(async (resolve, reject) => {
     try {
       const userData = await User.findOne({ uid: user?.uid });

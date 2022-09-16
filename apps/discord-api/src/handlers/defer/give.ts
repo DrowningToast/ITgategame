@@ -21,6 +21,23 @@ const DeferGiveCommand: DeferCommandHandler = async (message, rest) => {
   };
 
   try {
+    const requesterWallet = await axiosBackendInstance.get<{
+      balance: number;
+      discordId: string;
+    }>(`/discord/wallet/${requesterid}`);
+
+    if (requesterWallet.data.balance <= 0) {
+      await rest.patch(
+        Routes.webhookMessage(process.env.APP_ID!, message.token),
+        {
+          body: {
+            content: `<@${requesterid}> แกไม่มีอะไรจะไปให้ใครหรือเอาอะไรมาเป็นหลักประกันทั้งนั้นแล้ว. . .`,
+          },
+        }
+      );
+      return;
+    }
+
     const response = await axiosBackendInstance.post("/discord/give", {
       jwt: await EncodeObject({
         discordId: requesterid,
@@ -61,9 +78,6 @@ const DeferGiveCommand: DeferCommandHandler = async (message, rest) => {
         );
       }
     }
-
-    console.log(response.status);
-    console.log(response.data);
   } catch (e) {
     console.log(e.response);
     console.log(e.response.data);

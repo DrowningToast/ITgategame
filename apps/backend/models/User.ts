@@ -13,6 +13,7 @@ export interface iUser {
   year: number;
   activated: boolean;
   role: "Player" | "Admin" | "Agency";
+  discordId: string;
 }
 
 const UserSchema = new mongoose.Schema({

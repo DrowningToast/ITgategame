@@ -1,4 +1,5 @@
 import { Routes } from "discord.js";
+import { createTempAccount } from "../../api/helper";
 import { axiosBackendInstance } from "../../api/instance";
 import EncodeObject from "../../cred/encode";
 import { DeferCommandHandler } from "../handler";
@@ -54,40 +55,9 @@ const DeferGrantCommand: DeferCommandHandler = async (message, rest) => {
     };
 
     if (e.response.status === 404) {
-      let gate: "AND" | "OR" | "NOR" | "NOT" | null = null;
-
-      // Check which gate are they on
-      if (message.member?.roles.includes("1011597325036167268")) {
-        gate = "AND";
-      } else if (message.member?.roles.includes("1011597458805096492")) {
-        gate = "OR";
-      } else if (message.member?.roles.includes("1011597601088471100")) {
-        gate = "NOR";
-      } else if (message.member?.roles.includes("1011597674249715833")) {
-        gate = "NOT";
-      }
-
-      if (!gate) {
-        await rest.patch(
-          Routes.webhookMessage(process.env.APP_ID!, message.token),
-          {
-            body: {
-              content: `**Failed to update user tokens** Reason: Target missing a unqiue gate role`,
-            },
-          }
-        );
-        return;
-      }
-
-      await axiosBackendInstance.post("/discord/create", {
-        jwt: await EncodeObject({
-          discordId: targetParam.value,
-          gate,
-        }),
-      });
-
+      // Call create temp function
+      await createTempAccount(message, rest, targetParam.value);
       await updateAndResponse(message, rest);
-      return;
     }
     await rest.patch(
       Routes.webhookMessage(process.env.APP_ID!, message.token),
