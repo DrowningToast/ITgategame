@@ -478,6 +478,12 @@ fibbageRouter.patch<
       );
     }
 
+    console.log(
+      JSON.stringify({
+        phase,
+      })
+    );
+
     // Notify every users
     await sendWSData(
       null,

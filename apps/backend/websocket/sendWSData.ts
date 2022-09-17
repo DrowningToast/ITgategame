@@ -18,9 +18,10 @@ export const sendWSData = async (event, message: string) => {
   const apigwManagementApi = new AWS.ApiGatewayManagementApi({
     apiVersion: "2018-11-29",
     endpoint:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:4001"
-        : event?.requestContext.domainName + "/" + event?.requestContext.stage,
+      event?.requestContext.domainName + "/" + event?.requestContext.stage,
+    // process.env.NODE_ENV === "development"
+    //   ? "http://localhost:4001"
+    //   : event?.requestContext.domainName + "/" + event?.requestContext.stage,
   });
   try {
     const postData = JSON.parse(message!);
