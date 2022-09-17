@@ -276,7 +276,7 @@ fibbageRouter.post<
   }
 >("/new", async (req, res) => {
   try {
-    const user = await validateRole(req?.currentUser, ["Agency"]);
+    const user = await validateRole(req?.currentUser);
 
     const instance = await Fibbage.findOne({
       onGoing: true,

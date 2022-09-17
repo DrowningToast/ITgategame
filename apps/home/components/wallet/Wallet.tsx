@@ -23,7 +23,8 @@ interface payload {
 
 const Wallet = () => {
   const [fallbackId, _] = useState<string>("");
-  const [profile, setProfile] = useAtom(profileInfoAtom);
+  // const [profile, setProfile] = useAtom(profileInfoAtom);
+  const [profile, setProfile] = useAtom(firebaseUserAtom);
   const [token, setToken] = useAtom(firebaseToken);
   const Canvas = useRef<HTMLCanvasElement>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -34,31 +35,19 @@ const Wallet = () => {
 
   // Fetch the user again for good measure
   useEffect(() => {
-    if (!token || !profile) return;
-    const fetchData = async () => {
-      const response = await axiosBackendInstance.get<Profile>("/users");
-      setProfile(response.data);
-      reset({
-        userName: response.data.userName,
-        gate: response.data.gate,
-      });
-    };
+    if (!token) return;
+    const fetchData = async () => {};
     fetchData();
   }, [token]);
 
-  // Handle the ID
-  useEffect(() => {
-    if (!profile?.email) return;
-    _(profile?.email?.split("@")[0]);
-  }, [profile]);
-
   // Handle the QR Code
   useEffect(() => {
-    if (!profile?.id || !Canvas.current) return;
-    console.log(profile?.id);
+    if (!profile?.email?.split("@")[0] || !Canvas.current) return;
+    console.log(profile?.email?.split("@")[0]);
+    _(profile?.email?.split("@")[0]);
     QRCode.toCanvas(
       Canvas.current,
-      profile?.id,
+      profile?.email?.split("@")[0],
       {
         margin: 0,
         color: {
@@ -70,70 +59,49 @@ const Wallet = () => {
         console.log("QR Generated");
       }
     );
-  }, [profile?.id]);
+  }, [profile?.email?.split("@")[0]]);
 
-  // Manage gate color
-  useEffect(() => {
-    if (!profile?.gate) return () => {};
-    switch (profile?.gate) {
-      case "AND":
-        setColor("#00E0FF");
-        break;
-      case "OR":
-        setColor("#ACFE00");
-        break;
-      case "NOR":
-        setColor("#BD00FF");
-        break;
-      case "NOT":
-        setColor("#FF0000");
-        break;
-      default:
-        break;
-    }
-  }, [profile]);
+  // // Manage gate color
+  // useEffect(() => {
+  //   if (!profile?.gate) return () => {};
+  //   switch (profile?.gate) {
+  //     case "AND":
+  //       setColor("#00E0FF");
+  //       break;
+  //     case "OR":
+  //       setColor("#ACFE00");
+  //       break;
+  //     case "NOR":
+  //       setColor("#BD00FF");
+  //       break;
+  //     case "NOT":
+  //       setColor("#FF0000");
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, [profile]);
 
-  const { register, handleSubmit, reset } = useForm<payload>();
+  // const { register, handleSubmit, reset } = useForm<payload>();
 
-  const router = useRouter();
-
-  const handleConfirm: SubmitHandler<payload> = async (data: payload) => {
-    setLoading(true);
-    try {
-      let response;
-      if (!profile?.activated) {
-        response = await axiosBackendInstance.post("/users/verify", data);
-      } else {
-        response = await axiosBackendInstance.patch("/users", data);
-      }
-      // Refresh the profile information
-      const newProfile = await axiosBackendInstance.get<Profile>("/users");
-      setProfile(newProfile.data);
-      setEditing(false);
-      alert("The information has been changed");
-    } catch (e) {
-      alert("An error has occured, check log for more details");
-      console.error(e);
-    }
-    setLoading(false);
-  };
+  // const router = useRouter();
 
   // Fetch transactions
-  useEffect(() => {
-    if (!profile || !token) return () => {};
-    const fetchData = async () => {
-      try {
-        const response = await axiosBackendInstance.get<Transaction[]>(
-          "/transactions"
-        );
-        setTransactions([...response.data]);
-      } catch (e) {
-        console.error(e);
-        alert("An error has occured while trying to fetch transaction log");
-      }
-    };
-    fetchData();
-  }, [profile, token]);
+  // useEffect(() => {
+  //   if (!profile || !token) return () => {};
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axiosBackendInstance.get<Transaction[]>(
+  //         "/transactions"
+  //       );
+  //       setTransactions([...response.data]);
+  //     } catch (e) {
+  //       console.error(e);
+  //       alert("An error has occured while trying to fetch transaction log");
+  //     }
+  //   };
+  //   fetchData();
+  // }, [profile, token]);
 
   return (
     <>
@@ -151,12 +119,10 @@ const Wallet = () => {
               duration: 2,
             },
           }}
-          className="flex flex-col lg:grid lg:grid-cols-2 md:gap-y-4 lg:gap-x-6 items-center lg:max-h-full overflow-visible px-12 gap-y-2"
+          className="flex flex-col lg:grid lg:grid-cols-1 md:gap-y-4 lg:gap-x-6 place-items-center lg:max-h-full overflow-visible px-12 gap-y-2"
         >
           <h1 className="lg:col-start-1 lg:row-start-1 text-white font-bebas text-2xl md:text-3xl tracking-wider z-20">
-            {profile?.activated
-              ? `Welcome back, ${profile.userName}`
-              : "Confirm your identity"}
+            Gate Game, Good Game
           </h1>
           {/* Card */}
           <div className="lg:col-start-1 lg:row-start-2 w-full md:w-4/5 aspect-[9/15] sm:max-w-[320px] bg-white rounded-xl z-20 relative overflow-hidden shadow-xl">
@@ -175,26 +141,14 @@ const Wallet = () => {
               <div className="bg-[#2F4153] w-[200%] aspect-square absolute -left-12 bottom-0 transform translate-y-1/2 rounded-full"></div>
             </div>
             <div className="py-4 px-6 md:p-8 relative w-full h-full flex flex-col items-start justify-end">
-              {profile?.activated && (
-                <div
-                  className={`${
-                    profile?.gate === "AND" || "OR" ? "text-dark" : "text-white"
-                  } absolute top-5 right-5 flex flex-col items-end justify-start`}
-                >
-                  <h1 className={`text-5xl md:text-7xl font-bebas grayscale `}>
-                    {profile?.balance}
-                  </h1>
-                  <h5 className="text-2xl font-bebas">pts</h5>
-                </div>
-              )}
               <span className="font-bebas text-white tracking-widest font-light text-base">
                 {`${fallbackId[0]}${fallbackId[1]} ${fallbackId[2]}${fallbackId[3]} ${fallbackId[4]}${fallbackId[5]}${fallbackId[6]}`}
               </span>
               <span className="font-bebas text-white tracking-wider text-4xl md:text-3xl">
-                {profile?.firstName ?? "New"}
+                {profile?.displayName?.split(" ")[0] ?? "New"}
               </span>
               <span className="font-bebas text-white tracking-widest text-2xl md:text-xl">
-                {profile?.lastName ?? "Issue"}
+                {profile?.displayName?.split(" ")[1] ?? "Issue"}
               </span>
               <canvas
                 ref={Canvas}
@@ -206,8 +160,8 @@ const Wallet = () => {
             </div>
           </div>
           {/* Form */}
-          <AnimatePresence exitBeforeEnter>
-            {!profile?.activated || isEditing ? (
+          {/* <AnimatePresence exitBeforeEnter>
+            {isEditing ? (
               <motion.form
                 key="form"
                 initial={{
@@ -289,16 +243,7 @@ const Wallet = () => {
               >
                 <span
                   className={`font-kanit w-full inline-block text-green-500 mb-4 text-center`}
-                >
-                  {profile.discordId
-                    ? "Discord account is linked"
-                    : "Discord account is not yet linked. . ."}{" "}
-                  {profile.discordId && (
-                    <a href="/unlink" className="text-red-500 cursor-pointer">
-                      (unlink)
-                    </a>
-                  )}
-                </span>
+                ></span>
                 <div className="flex justify-around items-end h-full z-20 gap-x-4 justify-self-end font-kanit bottom-6 lg:bottom-12 inset-x-8 md:inset-x-14 md:text-2xl">
                   <button
                     onClick={() => setEditing(true)}
@@ -315,7 +260,7 @@ const Wallet = () => {
                 </div>
               </motion.div>
             )}
-          </AnimatePresence>
+          </AnimatePresence> */}
         </motion.div>
       )}
     </>

@@ -78,14 +78,14 @@ const Hero = () => {
                   กำลังจะลุกเป็นไฟอีกครั้ง!
                 </span>
               </div>
-              <button
+              {/* <button
                 onClick={() => {
                   if (!user) signinWithGooglePopUp(checkDomainName);
                 }}
                 className="text-white md:static absolute top-4 right-4 cursor-pointer my-4 tracking-widest inline-block font-light px-4 py-1 border-white border-2 md:border-4 rounded-md"
               >
                 {!user ? "เข้าสู่ระบบ" : "กำลังเข้าสู่ระบบ. . ."}
-              </button>
+              </button> */}
             </div>
           </motion.div>
         ) : (

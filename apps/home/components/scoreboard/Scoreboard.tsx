@@ -4,11 +4,11 @@ import { axiosBackendInstance } from "../axios/helper";
 import OrdinalSuffix from "../utils/OridnalSuffix";
 
 export interface Team {
-  _id: string;
+  _id?: string;
   totalPoints: number;
-  basePoints: number;
+  basePoints?: number;
   gate: "And" | "Or" | "Nor" | "Not";
-  __v: number;
+  __v?: number;
 }
 
 interface PropsA {
@@ -16,7 +16,24 @@ interface PropsA {
 }
 
 const Scoreboard: FC<PropsA> = ({ teams }) => {
-  const [gates, setGates] = useState<Team[]>(teams ?? []);
+  const [gates, setGates] = useState<Team[]>([
+    {
+      gate: "Nor",
+      totalPoints: 174240,
+    },
+    {
+      gate: "Not",
+      totalPoints: 98088,
+    },
+    {
+      gate: "And",
+      totalPoints: 36421,
+    },
+    {
+      gate: "Or",
+      totalPoints: 35102,
+    },
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,8 +109,8 @@ const GateScore: FC<PropsB> = ({
           <h2 className={`text-${8 - index}xl font-ranger uppercase`}>
             {gate}
           </h2>
-          {/* <h3 className="text-2xl font-ranger">{point} pts</h3> */}
-          <h3 className="text-2xl font-ranger">??? pts</h3>
+          <h3 className="text-2xl font-ranger">{point} pts</h3>
+          {/* <h3 className="text-2xl font-ranger">??? pts</h3> */}
           <span
             className={`font-bebas text-6xl text-white absolute top-0 left-0 transform -translate-y-full `}
           >
@@ -112,8 +129,8 @@ const GateScore: FC<PropsB> = ({
           className={`text-dark ${widthClassName} bg-${gate.toLowerCase()}-gradient h-36 relative rounded-tr-3xl rounded-br-3xl flex flex-col items-center justify-center`}
         >
           <h2 className="text-4xl md:text-6xl font-ranger uppercase">{gate}</h2>
-          {/* <h3 className="text-xl md:text-2xl font-ranger">{point} pts</h3> */}
-          <h3 className="text-xl md:text-2xl font-ranger">??? pts</h3>
+          <h3 className="text-xl md:text-2xl font-ranger">{point} pts</h3>
+          {/* <h3 className="text-xl md:text-2xl font-ranger">??? pts</h3> */}
           <span className="font-bebas text-3xl text-white absolute top-1/2 -right-4 transform -translate-y-1/2 translate-x-full">
             {position}
           </span>

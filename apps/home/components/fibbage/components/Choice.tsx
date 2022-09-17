@@ -20,6 +20,7 @@ const Choice: FC<{
         `/users/${source}`
       );
 
+      console.log(response.data);
       setUser(response.data);
     };
     fetch();

@@ -35,7 +35,8 @@ userRouter.get<{ uid: string }>("/:uid", async (req, res) => {
     const user = await User.findOne({
       uid: req.params.uid,
     });
-    0;
+
+    console.log(user);
 
     return res.status(200).send(user);
   } catch (e) {
