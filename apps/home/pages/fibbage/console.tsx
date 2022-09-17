@@ -25,7 +25,8 @@ const FibbageConsole: NextPage = () => {
     phase: string;
     jwt: string;
   }>(
-    process.env.NEXT_PUBLIC_WS_Prod_URL! ?? process.env.NEXT_PUBLIC_WS_Dev_URL!
+    "wss://cz1312nzoj.execute-api.ap-southeast-1.amazonaws.com/dev"
+    // process.env.NEXT_PUBLIC_WS_Prod_URL! ?? process.env.NEXT_PUBLIC_WS_Dev_URL!
     // "wss://cz1312nzoj.execute-api.ap-southeast-1.amazonaws.com/dev"
   );
 

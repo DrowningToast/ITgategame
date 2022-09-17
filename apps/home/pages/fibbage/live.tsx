@@ -18,7 +18,8 @@ const LiveFibbage: NextPage = () => {
     phase: string;
     jwt?: string;
   }>(
-    process.env.NEXT_PUBLIC_WS_Prod_URL! ?? process.env.NEXT_PUBLIC_WS_Dev_URL!
+    "wss://cz1312nzoj.execute-api.ap-southeast-1.amazonaws.com/dev"
+    // process.env.NEXT_PUBLIC_WS_Prod_URL! ?? process.env.NEXT_PUBLIC_WS_Dev_URL!
     // "wss://cz1312nzoj.execute-api.ap-southeast-1.amazonaws.com/dev"
   );
 
@@ -76,7 +77,7 @@ const LiveFibbage: NextPage = () => {
         style={{
           backgroundImage: `url("/assets/bg/${shuffle(bg)[0]}${Math.floor(
             Math.random() / 0.4
-          )}}")`,
+          )}")`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
