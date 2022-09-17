@@ -1,7 +1,7 @@
 import { ConditionalRedirect, profileInfoAtom } from "firebase-auth-api";
 import { useAtom } from "jotai";
 import { NextPage } from "next";
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { ReadyState } from "react-use-websocket";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { axiosBackendInstance } from "../../components/axios/helper";
@@ -65,6 +65,13 @@ const LiveFibbage: NextPage = () => {
 
   const bg = ["blue", "green", "orange", "red", "yellow"];
 
+  const bgUrl = useMemo(() => {
+    return `url("/assets/bg/${shuffle(bg)[0]}${Math.min(
+      Math.floor(Math.random() / 0.4),
+      1
+    )}.png")`;
+  }, []);
+
   return (
     <>
       <ConditionalRedirect
@@ -75,9 +82,7 @@ const LiveFibbage: NextPage = () => {
       />
       <div
         style={{
-          backgroundImage: `url("/assets/bg/${shuffle(bg)[0]}${Math.floor(
-            Math.random() / 0.4
-          )}")`,
+          backgroundImage: bgUrl,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
