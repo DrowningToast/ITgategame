@@ -48,7 +48,7 @@ const Choice: FC<{
           </span>
         ) : (
           <span className="font-noto font-bold text-2xl text-purple-500">
-            {source ? `${user?.userName!.toUpperCase()}'S LIE` : "HOST LIE"}
+            {source ? `${user?.userName?.toUpperCase()}'S LIE` : "HOST LIE"}
           </span>
         )}
       </motion.span>
