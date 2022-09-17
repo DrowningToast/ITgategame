@@ -7,6 +7,8 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: ap-southeast-1
+  websocketsApiName: websockets-api
+  websocketsApiRouteSelectionExpression: $request.body.action
   iam:
     role:
       statements: # permissions for all of your functions can be set here
@@ -25,21 +27,12 @@ functions:
     handler: handler.handler
     events:
       - httpApi: "*"
-  OnConnectHandler:
-    handler: handler.onConnect
-    events:
-      - websocket:
-          route: $connect
-  OnDisconnect:
-    handler: handler.onDisconnect
-    events:
       - websocket:
           route: $disconnect
-  OnBroadcast:
-    handler: handler.onBroadcast
-    events:
       - websocket:
-          route: $broadcast
+          route: $connect
+      - websocket:
+          route: broadcast
 
 resources:
   Resources:
@@ -61,6 +54,7 @@ plugins:
 
 custom:
   serverless-offline:
-    lambdaPort: 4002
+    lambdaPort: 3101
     httpPort: 7071
+    websocketPort: 4001
     useChildProcesses: true

@@ -1,5 +1,6 @@
 import express, { response } from "express";
 import jsonwebtoken from "jsonwebtoken";
+import { getMultipleRandom } from "../helper/getRandomElements";
 import ValidateJWT from "../helper/validateJWT";
 import validateRole from "../helper/validateRole";
 import Bounty from "../models/Bounty";
@@ -267,7 +268,9 @@ discordRouter.post<
     if (!requester)
       return res.status(400).send("The requester is not linked to any account");
     if (requester?.role !== "Agency")
-      return res.status(401).send("Requester is missing permission");
+      return res
+        .status(401)
+        .send(`Requester is missing permission ${requester.role}`);
 
     // Check if the complete account exists
     const targetFirebase = await User.findOne({
@@ -436,11 +439,11 @@ discordRouter.post<
       }
     } else if (amount < 0) {
       // Determine if successful or not
-      // 5% - 40%, the more the user steal, the lower the chance is
-      // The percent stop deceasing after 1500 tokens
+      // 2% - 30%, the more the user steal, the lower the chance is
+      // The percent stop deceasing after 1000 tokens
       // The value must be higher than the Threshold to steal succesfully
       const successfulThreshold =
-        0.6 + 0.35 * Math.min((amount * -1) / 1500, 1);
+        0.7 + 0.28 * Math.min((amount * -1) / 1000, 1);
       successful = Math.random() > successfulThreshold;
       if (successful) {
         // Success
@@ -604,7 +607,7 @@ discordRouter.post<
 
 discordRouter.patch("/bounty/end", async (req, res) => {
   try {
-    const { creatorId, channelId, targetId } = (await ValidateJWT(
+    let { creatorId, channelId, targetId } = (await ValidateJWT(
       req.body.jwt
     )) as {
       creatorId: string;
@@ -634,6 +637,11 @@ discordRouter.patch("/bounty/end", async (req, res) => {
       return res.status(404).send("Instance not found in the channel");
     }
 
+    // If limit is present, randomize the winners
+    if (instance.limit) {
+      targetId = getMultipleRandom(targetId, instance.limit);
+    }
+
     const users = await User.updateMany(
       {
         discordId: {
@@ -647,7 +655,7 @@ discordRouter.patch("/bounty/end", async (req, res) => {
       }
     );
 
-    res.status(200).send({ users, instance });
+    res.status(200).send({ users, instance, targetIds: targetId });
   } catch (e) {
     console.log(e);
     res.status(500).send(e);

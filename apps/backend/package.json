@@ -13,7 +13,7 @@
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.7.14",
     "aws-lambda": "^1.0.7",
-    "aws-sdk": "^2.1209.0",
+    "aws-sdk": "^2.964.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",

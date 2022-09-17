@@ -14,6 +14,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/jsonwebtoken": "^8.5.9",
     "airtable-api": "workspace:^1.0.0",
     "autoprefixer": "^10.4.8",
     "axios": "^0.27.2",
@@ -23,6 +24,7 @@
     "framer-motion": "^7.2.1",
     "jose": "^4.9.2",
     "jotai": "^1.8.1",
+    "jsonwebtoken": "^8.5.1",
     "next": "12.2.4",
     "next-pwa": "^5.6.0",
     "postcss": "^8.4.16",
@@ -32,6 +34,7 @@
     "react": "^18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.34.2",
+    "react-use-websocket": "^4.2.0",
     "sass": "^1.54.8"
   },
   "devDependencies": {

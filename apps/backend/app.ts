@@ -9,6 +9,7 @@ import Gate from "./models/Gate";
 import transactionRouter from "./routes/Transactions";
 import discordRouter from "./routes/Discord";
 import casinoRouter from "./routes/Casino";
+import fibbageRouter from "./routes/Fibbage";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/point", pointRouter);
 app.use("/transactions", transactionRouter);
 app.use("/discord", discordRouter);
 app.use("/casino", casinoRouter);
+app.use("/fibbage", fibbageRouter);
 
 app.get("/", (req, res, next) => {
   try {

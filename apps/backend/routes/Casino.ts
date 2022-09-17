@@ -1,8 +1,5 @@
 import express, { response } from "express";
-import jsonwebtoken from "jsonwebtoken";
-import { stringify } from "querystring";
 import ValidateJWT from "../helper/validateJWT";
-import validateRole from "../helper/validateRole";
 import DiscordUser from "../models/DiscordUser";
 import HighLow from "../models/HighLow";
 import User from "../models/User";

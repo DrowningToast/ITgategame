@@ -14,6 +14,7 @@ export interface iUser {
   activated: boolean;
   role: "Player" | "Admin" | "Agency";
   discordId: string;
+  connectionId: string;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -63,6 +64,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   discordToken: {
+    type: String,
+  },
+  connectionId: {
     type: String,
   },
 });

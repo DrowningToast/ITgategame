@@ -112,6 +112,7 @@ export const DeferEndBountyCommand: DeferCommandHandler = async (
     const users = await axiosBackendInstance.patch<{
       instance: IBountyInstance;
       users: iUser[];
+      targetIds: string[];
     }>("/discord/bounty/end", {
       jwt: await EncodeObject({
         creatorId: message.member?.user.id,
@@ -136,8 +137,7 @@ export const DeferEndBountyCommand: DeferCommandHandler = async (
                     : "ได้แก่!!"
                 }`
               : ""
-          }\n${targetId.map((id) => ` - <@${id}>\n`)}`,
-          //   content: "Done!",
+          }\n${users.data.targetIds.map((id) => ` - <@${id}>\n`)}`,
         },
       }
     );
