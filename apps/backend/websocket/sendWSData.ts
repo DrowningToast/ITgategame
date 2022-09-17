@@ -15,10 +15,13 @@ export const sendWSData = async (event, message: string) => {
     return { statusCode: 500, body: e.stack };
   }
 
+  console.log(
+    event?.requestContext.domainName + "/" + event?.requestContext.stage
+  );
+
   const apigwManagementApi = new AWS.ApiGatewayManagementApi({
     apiVersion: "2018-11-29",
-    endpoint:
-      event?.requestContext.domainName + "/" + event?.requestContext.stage,
+    endpoint: "cz1312nzoj.execute-api.ap-southeast-1.amazonaws.com/dev",
     // process.env.NODE_ENV === "development"
     //   ? "http://localhost:4001"
     //   : event?.requestContext.domainName + "/" + event?.requestContext.stage,

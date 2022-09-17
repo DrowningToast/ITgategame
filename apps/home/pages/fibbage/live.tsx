@@ -66,7 +66,7 @@ const LiveFibbage: NextPage = () => {
   const bg = ["blue", "green", "orange", "red", "yellow"];
 
   const bgUrl = useMemo(() => {
-    return `url("/assets/bg/${shuffle(bg)[0]}${Math.min(
+    return `url("/assets/bg/${shuffle(bg)[0]}${Math.max(
       Math.floor(Math.random() / 0.4),
       1
     )}.png")`;
