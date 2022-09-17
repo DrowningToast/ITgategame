@@ -11,6 +11,7 @@ import { SudoGameState } from "../../components/fibbage/types";
 import { motion } from "framer-motion";
 import LiveBet from "../../components/fibbage/components/LiveBet";
 import LiveReveal from "../../components/fibbage/components/LiveReveal";
+import shuffle from "../../components/utils/Shuffle";
 
 const LiveFibbage: NextPage = () => {
   const { sendMessage, lastJsonMessage, readyState } = useWebSocket<{
@@ -61,6 +62,8 @@ const LiveFibbage: NextPage = () => {
     fetchSudoGame();
   }, [connectionStatus, profile, lastJsonMessage]);
 
+  const bg = ["blue", "green", "orange", "red", "yellow"];
+
   return (
     <>
       <ConditionalRedirect
@@ -69,7 +72,17 @@ const LiveFibbage: NextPage = () => {
           return !user && ready;
         }}
       />
-      <div className="w-screen min-h-screen text-black bg-white flex flex-col justify-center items-center">
+      <div
+        style={{
+          backgroundImage: `url("/assets/bg/${shuffle(bg)[0]}${Math.floor(
+            Math.random() / 0.4
+          )}}")`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+        className="w-screen min-h-screen text-black bg-white flex flex-col justify-center items-center"
+      >
         {!gameState?.phase ? (
           <h1 className="font-eb font-bold text-purple-400 text-8xl">
             Fibbage
